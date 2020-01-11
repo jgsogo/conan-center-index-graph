@@ -6,6 +6,8 @@ import json
 from itertools import product
 from cci_recipe_list import Recipe
 
+log = logging.getLogger(__name__)
+
 
 def get_requirements(recipe, profile):
     name, _ = recipe.ref.split('/')
@@ -22,14 +24,19 @@ def get_requirements(recipe, profile):
             options_cmd.extend(['-o', opt])
 
     output_file = os.path.join('.requirements', recipe.ref)
-    cmd = ['info', '--json', output_file] + profile_cmd + options_cmd + [recipe.ref + '@']
+    cmd = ['info', '-db', '--json', output_file] + profile_cmd + options_cmd + [recipe.ref + '@']
     r = run_conan(cmd)
     if 'Invalid configuration' in r:
-        return None
+        return
 
-    content = json.loads(tools.load(output_file))
-    for it in content:
-        if it['reference'] == recipe.ref:
-            return it.get('requires', [])
-    
-    assert False, "Never get here!"
+    try:
+        content = json.loads(tools.load(output_file))
+        for it in content:
+            if it['reference'] == recipe.ref:
+                return it.get('requires', []), it.get('build_requires', [])
+        
+        assert False, "Never get here!"
+    except Exception as e:
+        log.error("Error!!! {}".format(e))
+        log.error(r)
+

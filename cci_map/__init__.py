@@ -9,11 +9,13 @@ from settings import get_profiles
 import os
 from run_conan import run_conan
 from utils import run, context_env
+from multiprocessing.dummy import Pool as ThreadPool
 from itertools import product
 import shutil
 from recipe_options import explode_options, explode_options_without_duplicates
 from recipe_requirements import get_requirements
 from graphviz import Digraph
+from conans import tools
 
 
 log = logging.getLogger(__name__)
@@ -33,6 +35,7 @@ def clone(repo):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Create conan-center-index map')
     parser.add_argument('--working-dir', type=str, help='working directory')
+    parser.add_argument('--threads', type=int, default=32, help='working directory')
     parser.add_argument('--explode-options', action='store_true', help='Explode options (use wise algorithm)')
     args = parser.parse_args()
 
@@ -70,7 +73,7 @@ if __name__ == "__main__":
 
         # Start to work with Conan itself
         with context_env(CONAN_USER_HOME=working_dir):
-            dot = Digraph(comment='Conan Center')
+            dot = Digraph(comment='Conan Center', strict=True)
 
             # Export all recipes
             for recipe in recipes:
@@ -79,23 +82,34 @@ if __name__ == "__main__":
                 r = run_conan(["export", recipe.conanfile, recipe.ref + '@'])
             
             # Get the requirements for all the recipe/profile/options
-            total = len(profiles)*len(recipes_with_options)
-            for i, (profile, recipe) in enumerate(product(profiles, recipes_with_options)):
+            jobs = list(product(profiles, recipes_with_options))
+            total = len(jobs)
+
+            def _per_job(profile_recipe):
+                profile, recipe = profile_recipe
                 log_line = "Recipe: '{}' | Profile: '{}'".format(recipe.ref, profile)
                 if args.explode_options:
                     log_line += " | Options: '{}'".format(recipe.options)
-                log.info("[{}/{}] {}".format(i, total, log_line))
-                reqs = get_requirements(recipe, profile)
-                if not reqs:
-                    continue
-                log.info(" - reqs: {}".format(reqs))
-                    
-                ori, _ = recipe.ref.split('/')
-                for it in reqs:
-                    dst, _ = it.split('/')
-                    dot.edge(ori, dst)
+                log.info(log_line)
+                reqs, breqs = get_requirements(recipe, profile)
+                return profile, recipe, reqs, breqs
+            
+            pool = ThreadPool(args.threads)
+            results = pool.map(_per_job, jobs)
+            pool.close()
+            pool.join()
 
-            graphviz = os.path.join(working_dir, 'graphviz')
+            for profile, recipe, reqs, breqs in results:
+                if reqs:
+                    ori, _ = recipe.ref.split('/')
+                    for it in reqs:
+                        dst, _ = it.split('/')
+                        dot.edge(ori, dst)
+                    for it in breqs:
+                        dst, _ = it.split('/')
+                        dot.edge(ori, dst, style="dashed", color="grey")
+
+            graphviz = os.path.join(working_dir, 'graphviz.dot')
             log.info("Draw the graph in '{}'".format(graphviz))
             tools.save(graphviz, dot.source)
 
