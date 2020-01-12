@@ -35,8 +35,11 @@ jobs:
     - name: Upload graph
       uses: actions/upload-artifact@v1
       with:
-        name: Graph
-        path: [_output/graph.pdf, _output/graph.svg]
+        name: graph-pdf
+        path: _output/graph.pdf
+      with:
+        name: graph-svg
+        path: _output/graph.svg
     - name: Deploy to GitHub pages
       uses: maxheld83/ghpages@v0.2.1
       env:
