@@ -50,6 +50,7 @@ jobs:
     - name: Deploy to gh-pages
       run: |
         cd _output
+        echo "" > .nojekyll
         echo "Hello" > index.html
         git init .
         git checkout -b gh-pages
