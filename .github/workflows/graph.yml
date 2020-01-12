@@ -26,9 +26,10 @@ jobs:
         python cci_map/__init__.py --add-drafts --threads 1
     - name: Generate PDF from graph
       run: |
-        dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _working_dir/graph.pdf
+        dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _output/graph.pdf
+        dot -Tpng -Gdpi=300 _working_dir/graphviz.dot > _output/graph.png
     - name: Upload graph
       uses: actions/upload-artifact@v1
       with:
         name: Graph
-        path: _working_dir/graph.pdf
+        path: _output/*
