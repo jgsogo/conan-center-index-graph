@@ -28,7 +28,7 @@ jobs:
       run: |
         dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _working_dir/graph.pdf
     - name: Upload graph
-        uses: actions/upload-artifact@v1
-        with:
-          name: Graph
-          path: _working_dir/graph.pdf
+      uses: actions/upload-artifact@v1
+      with:
+        name: Graph
+        path: _working_dir/graph.pdf
