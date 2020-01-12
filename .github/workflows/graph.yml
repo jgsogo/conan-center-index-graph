@@ -51,7 +51,7 @@ jobs:
       run: |
         cd _output
         echo ".nojekyll" > .nojekyll
-        echo "<html><body><h1>Conan Center</h1><img src=\"graph.png\"/></body></html>" > index.html
+        echo "<!doctype html><html><head></head><body><h1>Conan Center</h1><img src=\"graph.png\"/></body></html>" > index.html
         git init .
         git checkout -b gh-pages
         git add .
