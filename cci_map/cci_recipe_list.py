@@ -19,3 +19,7 @@ def get_recipe_list(basepath):
             for f in os.listdir(os.path.join(basepath, recipe)):
                 yield Recipe(ref="{}/{}".format(recipe, f), conanfile=os.path.join(basepath, recipe, f, 'conanfile.py'), options=None)
 
+def get_recipe_drafts(basepath):
+    for recipe in os.listdir(basepath):
+        name, _ = os.path.splitext(recipe)
+        yield Recipe(ref="{}/{}".format(name, 'draft'), conanfile=os.path.join(basepath, recipe), options=None)
