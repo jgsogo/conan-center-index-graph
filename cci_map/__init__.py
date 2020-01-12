@@ -40,6 +40,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     working_dir = os.path.abspath(args.working_dir)
+    shutil.rmtree(os.path.join(working_dir, '.conan', 'data'))
 
     log.setLevel(logging.INFO)
     ch = logging.StreamHandler()
@@ -56,9 +57,9 @@ if __name__ == "__main__":
         log.info("Found {} recipes".format(len(recipes)))
 
         # Get profiles
-        settings = os.path.abspath(os.path.join(me, '..', 'conf', 'settings.yml'))
-        profiles = list(get_profiles(settings))  # TODO: Add filter using input cmd argument
-        log.info("Computed {} profiles".format(len(profiles)))
+        profiles_dir = os.path.abspath(os.path.join(me, '..', 'conf', 'profiles'))
+        profiles = list(get_profiles(profiles_dir))  # TODO: Add filter using input cmd argument
+        log.info("Found {} profiles".format(len(profiles)))
 
         # Explode options (optional)
         # TODO: Add input argument to make this optional
@@ -77,6 +78,7 @@ if __name__ == "__main__":
 
             # Export all recipes
             for recipe in recipes:
+                log.info(" - export recipe '{}'".format(recipe.ref))
                 ori, _ = recipe.ref.split('/')
                 dot.node(ori)
                 r = run_conan(["export", recipe.conanfile, recipe.ref + '@'])
@@ -87,11 +89,11 @@ if __name__ == "__main__":
 
             def _per_job(profile_recipe):
                 profile, recipe = profile_recipe
-                log_line = "Recipe: '{}' | Profile: '{}'".format(recipe.ref, profile)
+                log_line = "Recipe: '{}' | Profile: '{}'".format(recipe.ref, os.path.basename(profile))
                 if args.explode_options:
                     log_line += " | Options: '{}'".format(recipe.options)
                 log.info(log_line)
-                reqs, breqs = get_requirements(recipe, profile)
+                reqs, breqs = get_requirements(recipe, profile, log)
                 return profile, recipe, reqs, breqs
             
             pool = ThreadPool(args.threads)
