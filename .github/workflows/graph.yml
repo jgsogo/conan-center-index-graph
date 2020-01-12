@@ -50,8 +50,8 @@ jobs:
     - name: Deploy to gh-pages
       run: |
         cd _output
-        echo "" > .nojekyll
-        echo "Hello" > index.html
+        echo ".nojekyll" > .nojekyll
+        echo "<h1>Conan Center</h1><img src=\"graph.png\"/>" > index.html
         git init .
         git checkout -b gh-pages
         git add .
