@@ -36,8 +36,8 @@ def get_requirements(recipe, profile, log):
         assert False, "Never get here!"
     except Exception as e:
         log.error("Error!!! {}".format(e))
-        log.error(" - recipe: ".format(recipe))
-        log.error(" - profile: ".format(profile))
+        log.error(" - recipe: {}".format(recipe.ref))
+        log.error(" - profile: {}".format(os.path.basename(profile)))
         log.error(r)
     return None, None
 

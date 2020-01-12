@@ -129,11 +129,6 @@ if __name__ == "__main__":
         for it in breqs or []:
             graph.add_edge(recipe.ref, it, profile)
 
-    print("Some stats:")
-    print(" - recipes: {}".format(len(graph.nodes)))
-    print(" - requires relations: {}".format(len(graph.edges)))
-    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values()])))
-
     for profile, recipe, reqs, breqs in results_drafts:
         graph.add_node(recipe.ref, profile, is_draft=True)
         for it in reqs or []:
@@ -146,7 +141,11 @@ if __name__ == "__main__":
     graphviz = graph.export_graphviz()
     tools.save(graphviz_file, graphviz.source)
 
-    print("Some stats (with drafts):")
-    print(" - recipes: {}".format(len(graph.nodes)))
-    print(" - requires relations: {}".format(len(graph.edges)))
-    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values()])))
+    print("Some stats:")
+    print(" - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
+    print(" - requires relations: {}".format(len([it for it in graph.edges.values() if not it.is_draft])))
+    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values() if not n.is_draft])))
+    if args.add_drafts:
+        print("Added drafts:")
+        print(" - drafts: {}".format(len([it for it in graph.nodes.values() if it.is_draft])))
+        print(" - requires relations (drafts): {}".format(len([it for it in graph.edges.values() if it.is_draft])))
