@@ -26,6 +26,7 @@ jobs:
         sudo apt-get install graphviz
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
     - name: Compute graph
       run: |
         python cci_map/__init__.py --add-drafts --threads 1
@@ -34,13 +35,24 @@ jobs:
         mkdir _output
         dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _output/graph.pdf
         dot -Tpng -Gdpi=300 _working_dir/graphviz.dot > _output/graph.png
-    - name: Upload graph
+
+    - name: Upload graph-pdf
       uses: actions/upload-artifact@v1
       with:
         name: graph-pdf
         path: _output/graph.pdf
-    - name: Upload graph
+    - name: Upload graph-png
       uses: actions/upload-artifact@v1
       with:
         name: graph-png
         path: _output/graph.png
+
+    - name: Deploy to gh-pages
+      run: |
+        cd _output
+        git init .
+        git checkout -b gh-pages
+        git add .
+        git commit -m "Automatic from Github actions"
+        git remote add origin-pages https://${{ secrets.GH_TOKEN }}@github.com/jgsogo/conan-center-index-graph.git > /dev/null 2>&1
+        git push --quiet --force --set-upstream origin-pages gh-pages 
