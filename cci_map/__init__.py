@@ -14,8 +14,8 @@ from itertools import product
 import shutil
 from recipe_options import explode_options, explode_options_without_duplicates
 from recipe_requirements import get_requirements
-from graphviz import Digraph
 from conans import tools
+from graph import Graph
 
 
 log = logging.getLogger(__name__)
@@ -74,14 +74,14 @@ if __name__ == "__main__":
 
         # Start to work with Conan itself
         with context_env(CONAN_USER_HOME=working_dir):
-            dot = Digraph(comment='Conan Center', strict=True)
+            graph = Graph()
 
             # Export all recipes
             for recipe in recipes:
                 log.info(" - export recipe '{}'".format(recipe.ref))
                 ori, _ = recipe.ref.split('/')
-                dot.node(ori)
                 r = run_conan(["export", recipe.conanfile, recipe.ref + '@'])
+                graph.add_node(recipe.ref)
             
             # Get the requirements for all the recipe/profile/options
             jobs = list(product(profiles, recipes_with_options))
@@ -102,16 +102,14 @@ if __name__ == "__main__":
             pool.join()
 
             for profile, recipe, reqs, breqs in results:
-                if reqs:
-                    ori, _ = recipe.ref.split('/')
-                    for it in reqs:
-                        dst, _ = it.split('/')
-                        dot.edge(ori, dst)
-                    for it in breqs:
-                        dst, _ = it.split('/')
-                        dot.edge(ori, dst, style="dashed", color="grey")
+                graph.add_node(recipe.ref, profile)
+                for it in reqs or []:
+                    graph.add_edge(recipe.ref, it, profile)
+                for it in breqs or []:
+                    graph.add_edge(recipe.ref, it, profile)
 
-            graphviz = os.path.join(working_dir, 'graphviz.dot')
-            log.info("Draw the graph in '{}'".format(graphviz))
-            tools.save(graphviz, dot.source)
+            graphviz_file = os.path.join(working_dir, 'graphviz.dot')
+            log.info("Draw the graph in '{}'".format(graphviz_file))
+            graphviz = graph.export_graphviz()
+            tools.save(graphviz_file, graphviz.source)
 

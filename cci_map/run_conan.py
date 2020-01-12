@@ -37,7 +37,6 @@ def conan_command(output_stream):
             conan_api._remote_manager._auth_manager._localdb.connection.close()  # Close sqlite3
         sys.stdout, sys.stderr = old_stdout, old_stderr
 
-
 def run_conan(command):
     stream = StringIO()
     with conan_command(stream) as cmd:
