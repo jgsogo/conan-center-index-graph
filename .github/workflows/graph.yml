@@ -1,6 +1,9 @@
 name: Generate graph
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -24,8 +27,9 @@ jobs:
     - name: Compute graph
       run: |
         python cci_map/__init__.py --add-drafts --threads 1
-    - name: Generate PDF from graph
+    - name: Generate PDF/PNG from graph
       run: |
+        mkdir _output
         dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _output/graph.pdf
         dot -Tpng -Gdpi=300 _working_dir/graphviz.dot > _output/graph.png
     - name: Upload graph
@@ -33,3 +37,8 @@ jobs:
       with:
         name: Graph
         path: _output/*
+    - name: Deploy to GitHub pages
+      uses: maxheld83/ghpages@v0.2.1
+      env:
+        BUILD_DIR: _output
+        GH_PAT: ${{ secrets.GITHUB_TOKEN }}
