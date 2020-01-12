@@ -37,6 +37,8 @@ jobs:
       with:
         name: graph-pdf
         path: _output/graph.pdf
+    - name: Upload graph
+      uses: actions/upload-artifact@v1
       with:
         name: graph-svg
         path: _output/graph.svg
