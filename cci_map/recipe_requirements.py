@@ -17,7 +17,7 @@ def get_requirements(recipe, profile, log):
         for opt in recipe.options:
             options_cmd.extend(['-o', opt])
 
-    output_file = os.path.join('.requirements', recipe.ref.replace('/', '-') + '.lock')
+    output_file = os.path.join('.graphlock', recipe.ref.replace('/', '-') + '.lock')
     cmd = ['graph', 'lock', '--build', '--profile', profile, '--lockfile', output_file] + options_cmd + [recipe.ref + '@']
     r = run_conan(cmd)
 

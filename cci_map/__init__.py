@@ -34,13 +34,15 @@ def clone(repo):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Create conan-center-index map')
-    parser.add_argument('--working-dir', type=str, help='working directory')
+    #parser.add_argument('--working-dir', type=str, help='working directory')
     parser.add_argument('--threads', type=int, default=32, help='working directory')
     parser.add_argument('--explode-options', action='store_true', help='Explode options (use wise algorithm)')
     args = parser.parse_args()
 
-    working_dir = os.path.abspath(args.working_dir)
-    shutil.rmtree(os.path.join(working_dir, '.conan', 'data'))
+    working_dir = os.path.abspath(os.path.join(me, '_working_dir'))
+    if os.path.exists(working_dir):
+        shutil.rmtree(working_dir)
+    os.mkdir(working_dir)
 
     log.setLevel(logging.INFO)
     ch = logging.StreamHandler()
@@ -50,7 +52,8 @@ if __name__ == "__main__":
     log.addHandler(ch)
 
     with chdir(working_dir):
-        # clone(conan_center_index)
+        # Clone Conan Center Index
+        clone(conan_center_index)
 
         # Get recipes
         recipes = list(get_recipe_list('conan-center-index'))
@@ -101,15 +104,19 @@ if __name__ == "__main__":
             pool.close()
             pool.join()
 
-            for profile, recipe, reqs, breqs in results:
-                graph.add_node(recipe.ref, profile)
-                for it in reqs or []:
-                    graph.add_edge(recipe.ref, it, profile)
-                for it in breqs or []:
-                    graph.add_edge(recipe.ref, it, profile)
+    for profile, recipe, reqs, breqs in results:
+        graph.add_node(recipe.ref, profile)
+        for it in reqs or []:
+            graph.add_edge(recipe.ref, it, profile)
+        for it in breqs or []:
+            graph.add_edge(recipe.ref, it, profile)
 
-            graphviz_file = os.path.join(working_dir, 'graphviz.dot')
-            log.info("Draw the graph in '{}'".format(graphviz_file))
-            graphviz = graph.export_graphviz()
-            tools.save(graphviz_file, graphviz.source)
+    graphviz_file = os.path.join(working_dir, 'graphviz.dot')
+    log.info("Draw the graph in '{}'".format(graphviz_file))
+    graphviz = graph.export_graphviz()
+    tools.save(graphviz_file, graphviz.source)
 
+    print("Some stats:")
+    print(" - recipes: {}".format(len(graph.nodes)))
+    print(" - requires relations: {}".format(len(graph.edges)))
+    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values()])))
