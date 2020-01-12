@@ -1,3 +1,4 @@
 _working_dir
 _venv
 **/__pycache__
+.vscode/

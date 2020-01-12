@@ -1,15 +1,15 @@
 
-from contextlib import contextmanager
-
-import sys
-from conans import __version__ as conan_version
-from conans.client.command import Conan, CommandOutputer, Command
-from conans.model.version import Version
 import os
 import shutil
+import sys
 import tempfile
 import unittest
 import uuid
+from contextlib import contextmanager
+
+from conans import __version__ as conan_version
+from conans.client.command import Command, CommandOutputer, Conan
+from conans.model.version import Version
 
 try:
     from cStringIO import StringIO

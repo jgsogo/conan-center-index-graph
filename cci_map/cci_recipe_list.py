@@ -1,7 +1,8 @@
 import os
+from collections import defaultdict, namedtuple
+
 import yaml
 from conans import tools
-from collections import defaultdict, namedtuple
 
 Recipe = namedtuple("Recipe", ["ref", "conanfile", "options"])
 

@@ -1,22 +1,23 @@
-import subprocess
-import logging
-from conans.util.files import mkdir, get_abs_path, walk, decode_text
-from collections import namedtuple
 import argparse
-from conans.client.tools import chdir
-from cci_recipe_list import get_recipe_list, get_recipe_drafts
-from settings import get_profiles
+import logging
 import os
-from run_conan import run_conan
-from utils import run, context_env
-from multiprocessing.dummy import Pool as ThreadPool
-from itertools import product
 import shutil
+import subprocess
+from collections import namedtuple
+from itertools import product
+from multiprocessing.dummy import Pool as ThreadPool
+
+from conans import tools
+from conans.client.tools import chdir
+from conans.util.files import decode_text, get_abs_path, mkdir, walk
+
+from cci_recipe_list import get_recipe_drafts, get_recipe_list
+from graph import Graph
 from recipe_options import explode_options, explode_options_without_duplicates
 from recipe_requirements import get_requirements
-from conans import tools
-from graph import Graph
-
+from run_conan import run_conan
+from settings import get_profiles
+from utils import context_env, run
 
 log = logging.getLogger(__name__)
 me = os.path.abspath(os.path.dirname(__file__))

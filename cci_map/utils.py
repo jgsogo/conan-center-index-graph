@@ -1,6 +1,10 @@
+import contextlib
 import logging
+import os
+import re
 import subprocess
-from conans.util.files import mkdir, get_abs_path, walk, decode_text
+
+from conans.util.files import decode_text, get_abs_path, mkdir, walk
 
 log = logging.getLogger(__name__)
 
@@ -11,9 +15,6 @@ def run(command):
     log.debug(out)
     return out
 
-import contextlib
-import os
-import re
 
 
 @contextlib.contextmanager

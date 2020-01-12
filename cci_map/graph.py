@@ -1,7 +1,8 @@
 
 import os
-from graphviz import Digraph
 from datetime import date
+
+from graphviz import Digraph
 
 
 class Node:

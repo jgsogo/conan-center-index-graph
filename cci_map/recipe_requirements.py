@@ -1,10 +1,12 @@
-from run_conan import run_conan
-from conans import tools
-import os
-import logging
 import json
+import logging
+import os
 from itertools import product
+
+from conans import tools
+
 from cci_recipe_list import Recipe
+from run_conan import run_conan
 
 #log = logging.getLogger(__name__)
 
@@ -40,4 +42,3 @@ def get_requirements(recipe, profile, log):
         log.error(" - profile: {}".format(os.path.basename(profile)))
         log.error(r)
     return None, None
-
