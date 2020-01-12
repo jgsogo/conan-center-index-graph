@@ -39,7 +39,7 @@ if __name__ == "__main__":
     parser.add_argument('--explode-options', action='store_true', help='Explode options (use wise algorithm)')
     args = parser.parse_args()
 
-    working_dir = os.path.abspath(os.path.join(me, '_working_dir'))
+    working_dir = os.path.abspath(os.path.join(me, '..', '_working_dir'))
     if os.path.exists(working_dir):
         shutil.rmtree(working_dir)
     os.mkdir(working_dir)
