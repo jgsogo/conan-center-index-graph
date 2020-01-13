@@ -48,25 +48,51 @@ class Graph:
     def export_graphviz(self):
         today = date.today().strftime("%B %d, %Y")
         dot = Digraph(name="Conan Center", strict=True)
-        dot.attr(label='<<font point-size="20">Conan Center - {date}</font>>'.format(date=today))
+        dot.attr(
+            label='<<font point-size="20">Conan Center - {date}</font>>'.format(date=today))
         dot.attr(labelloc='bottom')
         dot.attr(labeljust='left')
         dot.graph_attr['ranksep'] = '2'
 
         for _, node in self.nodes.items():
             color = self.color_draft if node.is_draft else self.color_default
-            label = '<<table color="{color}" border="0" cellborder="0"><tr><td><b><font color="{color}">{name}</font></b></td></tr>'.format(name=node.name, color=color)
+            label = '<<table color="{color}" border="0" cellborder="0"><tr><td><b><font color="{color}">{name}</font></b></td></tr>'.format(
+                name=node.name, color=color)
             if node.versions:
-                label += '<tr><td><font color="{color}" face="monospace" point-size="7">{versions}</font></td></tr>'.format(versions=", ".join(node.versions), color=color)
+                label += '<tr><td><font color="{color}" face="monospace" point-size="7">{versions}</font></td></tr>'.format(
+                    versions=", ".join(node.versions), color=color)
             if not node.is_draft and node.profiles:
-                label += '<tr><td><font color="{color}" face="monospace" point-size="7">{profiles}</font></td></tr>'.format(profiles=", ".join([os.path.basename(pr) for pr in node.profiles]), color=color)
+                label += '<tr><td><font color="{color}" face="monospace" point-size="7">{profiles}</font></td></tr>'.format(
+                    profiles=", ".join([os.path.basename(pr) for pr in node.profiles]), color=color)
             label += '</table>>'
             dot.node(node.name, shape="rectangle", label=label, color=color)
         for edge, data in self.edges.items():
-            #label = '<<font point-size="7">{}</font>>'.format("".join([os.path.basename(it)[:1] for it in data.profiles]))  # Just the first letter
+            # label = '<<font point-size="7">{}</font>>'.format("".join([os.path.basename(it)[:1] for it in data.profiles]))  # Just the first letter
             label = None
             color = self.color_draft if data.is_draft else self.color_default
             dot.edge(edge[0].name, edge[1].name, label=label, color=color)
 
         #dot.edge(ori, dst, style="dashed", color="grey")
         return dot
+
+    def export_cytoscape(self):
+        ret = []
+        for _, node in self.nodes.items():
+            node_type = "draft" if node.is_draft else "regular"
+            ret.append({'data': {
+                "type": node_type,
+                "id": node.name,
+                "name": node.name,
+                "versions": ", ".join(node.versions),
+                "profiles": ", ".join([os.path.basename(pr) for pr in node.profiles])
+            }})
+
+        for edge, data in self.edges.items():
+            edge_type = "draft" if data.is_draft else "regular"
+            ret.append({'data': {
+                "source": edge[0].name,
+                "target": edge[1].name,
+                "type": edge_type,
+            }})
+
+        return ret

@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os
 import shutil
@@ -41,14 +42,15 @@ def do_work(recipes, recipes_with_options, profiles, graph, threads, explode_opt
         ori, _ = recipe.ref.split('/')
         r = run_conan(["export", recipe.conanfile, recipe.ref + '@'])
         graph.add_node(recipe.ref, is_draft=is_draft)
-    
+
     # Get the requirements for all the recipe/profile/options
     jobs = list(product(profiles, recipes_with_options))
     total = len(jobs)
 
     def _per_job(profile_recipe):
         profile, recipe = profile_recipe
-        log_line = "Recipe: '{}' | Profile: '{}'".format(recipe.ref, os.path.basename(profile))
+        log_line = "Recipe: '{}' | Profile: '{}'".format(
+            recipe.ref, os.path.basename(profile))
         if explode_options:
             log_line += " | Options: '{}'".format(recipe.options)
         log.info(log_line)
@@ -60,14 +62,18 @@ def do_work(recipes, recipes_with_options, profiles, graph, threads, explode_opt
     pool.close()
     pool.join()
     return results
-        
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Create conan-center-index map')
+    parser = argparse.ArgumentParser(
+        description='Create conan-center-index map')
     #parser.add_argument('--working-dir', type=str, help='working directory')
-    parser.add_argument('--threads', type=int, default=32, help='working directory')
-    parser.add_argument('--explode-options', action='store_true', help='Explode options (use wise algorithm)')
-    parser.add_argument('--add-drafts', action='store_true', help='Add recipe drafts')
+    parser.add_argument('--threads', type=int, default=32,
+                        help='working directory')
+    parser.add_argument('--explode-options', action='store_true',
+                        help='Explode options (use wise algorithm)')
+    parser.add_argument('--add-drafts', action='store_true',
+                        help='Add recipe drafts')
     args = parser.parse_args()
 
     working_dir = os.path.abspath(os.path.join(me, '..', '_working_dir'))
@@ -78,7 +84,8 @@ if __name__ == "__main__":
     log.setLevel(logging.INFO)
     ch = logging.StreamHandler()
     ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
     log.addHandler(ch)
 
@@ -91,8 +98,10 @@ if __name__ == "__main__":
         log.info("Found {} recipes".format(len(recipes)))
 
         # Get profiles
-        profiles_dir = os.path.abspath(os.path.join(me, '..', 'conf', 'profiles'))
-        profiles = list(get_profiles(profiles_dir))  # TODO: Add filter using input cmd argument
+        profiles_dir = os.path.abspath(
+            os.path.join(me, '..', 'conf', 'profiles'))
+        # TODO: Add filter using input cmd argument
+        profiles = list(get_profiles(profiles_dir))
         log.info("Found {} profiles".format(len(profiles)))
 
         # Explode options (optional)
@@ -101,8 +110,10 @@ if __name__ == "__main__":
         if args.explode_options:
             for recipe in recipes:
                 log.debug("Explode options for recipe: '{}'".format(recipe.ref))
-                recipes_with_options += list(explode_options_without_duplicates(recipe))
-            log.info("Found {} recipes after exploding options".format(len(recipes_with_options)))
+                recipes_with_options += list(
+                    explode_options_without_duplicates(recipe))
+            log.info("Found {} recipes after exploding options".format(
+                len(recipes_with_options)))
         else:
             recipes_with_options = recipes
 
@@ -110,18 +121,22 @@ if __name__ == "__main__":
         with context_env(CONAN_USER_HOME=working_dir):
             graph = Graph()
 
-            results = do_work(recipes, recipes_with_options, profiles, graph, args.threads, explode_options=args.explode_options, is_draft=False)
+            results = do_work(recipes, recipes_with_options, profiles, graph,
+                              args.threads, explode_options=args.explode_options, is_draft=False)
 
             # Iterate drafts
             results_drafts = []
             if args.add_drafts:
-                drafts = list(get_recipe_drafts(os.path.join(me, '..', 'recipe_drafts')))
+                drafts = list(get_recipe_drafts(
+                    os.path.join(me, '..', 'recipe_drafts')))
                 actual_recipe_names = graph.nodes.keys()
-                drafts = [d for d in drafts if d.ref.split('/')[0] not in actual_recipe_names]  # TODO: Log removed recipes
+                drafts = [d for d in drafts if d.ref.split(
+                    '/')[0] not in actual_recipe_names]  # TODO: Log removed recipes
                 log.info("Found {} recipe drafts".format(len(drafts)))
 
                 draft_profile = os.path.join(profiles_dir, 'draft')
-                results_drafts = do_work(drafts, drafts, [draft_profile], graph, args.threads, explode_options=False, is_draft=True)
+                results_drafts = do_work(drafts, drafts, [
+                                         draft_profile], graph, args.threads, explode_options=False, is_draft=True)
 
     for profile, recipe, reqs, breqs in results:
         graph.add_node(recipe.ref, profile)
@@ -142,11 +157,20 @@ if __name__ == "__main__":
     graphviz = graph.export_graphviz()
     tools.save(graphviz_file, graphviz.source)
 
+    cytoscape_file = os.path.join(working_dir, 'data.json')
+    log.info("Dump to JSON in '{}'".format(cytoscape_file))
+    tools.save(cytoscape_file, json.dumps(parsed, indent=4, sort_keys=True))
+
     print("Some stats:")
-    print(" - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
-    print(" - requires relations: {}".format(len([it for it in graph.edges.values() if not it.is_draft])))
-    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values() if not n.is_draft])))
+    print(
+        " - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
+    print(" - requires relations: {}".format(
+        len([it for it in graph.edges.values() if not it.is_draft])))
+    print(" - recipes x versions: {}".format(
+        sum([len(n.versions) for n in graph.nodes.values() if not n.is_draft])))
     if args.add_drafts:
         print("Added drafts:")
-        print(" - drafts: {}".format(len([it for it in graph.nodes.values() if it.is_draft])))
-        print(" - requires relations (drafts): {}".format(len([it for it in graph.edges.values() if it.is_draft])))
+        print(
+            " - drafts: {}".format(len([it for it in graph.nodes.values() if it.is_draft])))
+        print(" - requires relations (drafts): {}".format(
+            len([it for it in graph.edges.values() if it.is_draft])))
