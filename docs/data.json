@@ -18,6 +18,6 @@
         }
     },
     { 
-        "data": { "id": "ab", "source": "name", "target": "name-draft" }
+        "data": {"source": "name", "target": "name-draft"}
       }
 ]
