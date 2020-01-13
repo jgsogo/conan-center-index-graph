@@ -1,0 +1,23 @@
+[
+    {
+        "data": {
+            "type": "regular",
+            "id": "name",
+            "name": "name",
+            "versions": "versions",
+            "profiles": "profiles"
+        }
+    },
+    {
+        "data": {
+            "type": "draft",
+            "id": "name-draft",
+            "name": "name-draft",
+            "versions": "versions-draft",
+            "profiles": "profiles-draft"
+        }
+    },
+    { 
+        "data": { "id": "ab", "source": "name", "target": "name-draft" }
+      }
+]
