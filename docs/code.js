@@ -8,7 +8,9 @@
         style: fetch('cy-style.json').then(toJson),
         elements: fetch('data.json').then(toJson),
         layout: {
-            name: 'grid'
+            name: 'dagre',  // https://github.com/cytoscape/cytoscape.js-dagre
+            nodeDimensionsIncludeLabels: true,
+            rankSep: 100,
         },
         ready: function () {
             //this.style().clear();
@@ -16,8 +18,8 @@
                 console.log(ele.id())
                 rect = document.getElementById('node-' + ele.id()).getBoundingClientRect();
                 ele.style({
-                    'width': rect.width/2.,
-                    'height': rect.height/2.,
+                    'width': rect.width/6.,
+                    'height': rect.height/6.,
                   })
               });
         }
@@ -27,13 +29,13 @@
         {
             query: 'node[type="regular"]',
             tpl: function (data) {
-                return `<table id="node-${data.id}" class="cy-node-table"><tr><td class="cy-node-title">${data.name}</td></tr><tr><td>${data.versions}</td></tr><tr><td>${data.profiles}</td></tr></table>`;
+                return `<table id="node-${data.id}" class="cy-node-table"><tr><td class="cy-node-title">${data.name}</td></tr><tr><td class="cy-node-data">${data.versions}</td></tr><tr><td class="cy-node-data">${data.profiles}</td></tr></table>`;
             }
         },
         {
             query: 'node[type="draft"]',
             tpl: function (data) {
-                return `<table id="node-${data.id}" class="cy-node-table"><tr><td class="cy-node-title">${data.name}</td></tr><tr><td>${data.profiles}</td></tr></table>`;
+                return `<table id="node-${data.id}" class="cy-node-table"><tr><td class="cy-node-title">${data.name}</td></tr><tr><td class="cy-node-data">${data.profiles}</td></tr></table>`;
             }
         }
     ]);
