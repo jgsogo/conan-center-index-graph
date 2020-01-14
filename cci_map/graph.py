@@ -45,7 +45,7 @@ class Graph:
         edge.profiles.add(profile)
         return edge
 
-    def export_graphviz(self):
+    def export_graphviz(self, include_drafts):
         today = date.today().strftime("%B %d, %Y")
         dot = Digraph(name="Conan Center", strict=True)
         dot.attr(label='<<font point-size="20">Conan Center - {date}</font>>'.format(date=today))
@@ -54,6 +54,8 @@ class Graph:
         dot.graph_attr['ranksep'] = '2'
 
         for _, node in self.nodes.items():
+            if not include_drafts and node.is_draft:
+                continue
             color = self.color_draft if node.is_draft else self.color_default
             label = '<<table color="{color}" border="0" cellborder="0"><tr><td><b><font color="{color}">{name}</font></b></td></tr>'.format(name=node.name, color=color)
             if node.versions:
@@ -63,6 +65,8 @@ class Graph:
             label += '</table>>'
             dot.node(node.name, shape="rectangle", label=label, color=color)
         for edge, data in self.edges.items():
+            if not include_drafts and data.is_draft:
+                continue
             #label = '<<font point-size="7">{}</font>>'.format("".join([os.path.basename(it)[:1] for it in data.profiles]))  # Just the first letter
             label = None
             color = self.color_draft if data.is_draft else self.color_default

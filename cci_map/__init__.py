@@ -139,8 +139,13 @@ if __name__ == "__main__":
 
     graphviz_file = os.path.join(working_dir, 'graphviz.dot')
     log.info("Draw the graph in '{}'".format(graphviz_file))
-    graphviz = graph.export_graphviz()
+    graphviz = graph.export_graphviz(include_drafts=False)
     tools.save(graphviz_file, graphviz.source)
+
+    graphviz_w_drafts_file = os.path.join(working_dir, 'graphviz-drafts.dot')
+    log.info("Draw the graph (with drafts) in '{}'".format(graphviz_w_drafts_file))
+    graphviz = graph.export_graphviz(include_drafts=True)
+    tools.save(graphviz_w_drafts_file, graphviz.source)
 
     print("Some stats:")
     print(" - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
