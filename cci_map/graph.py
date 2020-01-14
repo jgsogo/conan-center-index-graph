@@ -92,7 +92,7 @@ class Graph:
             ret.append({'data': {
                 "source": edge[0].name,
                 "target": edge[1].name,
-                "type": edge_type,
+                "etype": edge_type,
             }})
 
         return ret

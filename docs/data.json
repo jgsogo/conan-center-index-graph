@@ -1,23 +1,2027 @@
 [
     {
         "data": {
+            "id": "libiberty",
+            "name": "libiberty",
+            "profiles": "macos, linux, windows",
             "type": "regular",
-            "id": "name",
-            "name": "name",
-            "versions": "versions",
-            "profiles": "profiles"
+            "versions": "9.1.0"
         }
     },
     {
         "data": {
-            "type": "draft",
-            "id": "name-draft",
-            "name": "name-draft",
-            "versions": "versions-draft",
-            "profiles": "profiles-draft"
+            "id": "benchmark",
+            "name": "benchmark",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.5.0"
         }
     },
-    { 
-        "data": {"source": "name", "target": "name-draft"}
-      }
+    {
+        "data": {
+            "id": "botan",
+            "name": "botan",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.12.1"
+        }
+    },
+    {
+        "data": {
+            "id": "xsimd",
+            "name": "xsimd",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "7.4.4, 7.4.5"
+        }
+    },
+    {
+        "data": {
+            "id": "msys2",
+            "name": "msys2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "20190524, 20161025"
+        }
+    },
+    {
+        "data": {
+            "id": "libtiff",
+            "name": "libtiff",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "4.0.9, 4.0.8"
+        }
+    },
+    {
+        "data": {
+            "id": "tinycbor",
+            "name": "tinycbor",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.5.3"
+        }
+    },
+    {
+        "data": {
+            "id": "yasm",
+            "name": "yasm",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.0"
+        }
+    },
+    {
+        "data": {
+            "id": "jansson",
+            "name": "jansson",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.12"
+        }
+    },
+    {
+        "data": {
+            "id": "gmp",
+            "name": "gmp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "6.1.2"
+        }
+    },
+    {
+        "data": {
+            "id": "lcms",
+            "name": "lcms",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.9"
+        }
+    },
+    {
+        "data": {
+            "id": "libiconv",
+            "name": "libiconv",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.15"
+        }
+    },
+    {
+        "data": {
+            "id": "log4cplus",
+            "name": "log4cplus",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.0.4"
+        }
+    },
+    {
+        "data": {
+            "id": "variant-lite",
+            "name": "variant-lite",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.2.2"
+        }
+    },
+    {
+        "data": {
+            "id": "amqp-cpp",
+            "name": "amqp-cpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "4.1.5"
+        }
+    },
+    {
+        "data": {
+            "id": "enet",
+            "name": "enet",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.14"
+        }
+    },
+    {
+        "data": {
+            "id": "absent",
+            "name": "absent",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.0.1, 0.1.0"
+        }
+    },
+    {
+        "data": {
+            "id": "json-c",
+            "name": "json-c",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.13.1"
+        }
+    },
+    {
+        "data": {
+            "id": "eabase",
+            "name": "eabase",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.09.05"
+        }
+    },
+    {
+        "data": {
+            "id": "ogg",
+            "name": "ogg",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.4"
+        }
+    },
+    {
+        "data": {
+            "id": "optional-lite",
+            "name": "optional-lite",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.2.0"
+        }
+    },
+    {
+        "data": {
+            "id": "libuuid",
+            "name": "libuuid",
+            "profiles": "macos, draft, linux, windows",
+            "type": "regular",
+            "versions": "1.0.3"
+        }
+    },
+    {
+        "data": {
+            "id": "libxml2",
+            "name": "libxml2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.9.9"
+        }
+    },
+    {
+        "data": {
+            "id": "cpp-taskflow",
+            "name": "cpp-taskflow",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.2.0"
+        }
+    },
+    {
+        "data": {
+            "id": "b2",
+            "name": "b2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "4.1.0, 4.0.0, 4.0.1"
+        }
+    },
+    {
+        "data": {
+            "id": "libjpeg",
+            "name": "libjpeg",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "9c"
+        }
+    },
+    {
+        "data": {
+            "id": "libpng",
+            "name": "libpng",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.6.37"
+        }
+    },
+    {
+        "data": {
+            "id": "utfcpp",
+            "name": "utfcpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.1"
+        }
+    },
+    {
+        "data": {
+            "id": "jsoncpp",
+            "name": "jsoncpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.9.2, 1.9.1"
+        }
+    },
+    {
+        "data": {
+            "id": "simple-websocket-server",
+            "name": "simple-websocket-server",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "apriltag",
+            "name": "apriltag",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.1.1"
+        }
+    },
+    {
+        "data": {
+            "id": "toml11",
+            "name": "toml11",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.1.0"
+        }
+    },
+    {
+        "data": {
+            "id": "string-view-lite",
+            "name": "string-view-lite",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.0"
+        }
+    },
+    {
+        "data": {
+            "id": "libalsa",
+            "name": "libalsa",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1.9"
+        }
+    },
+    {
+        "data": {
+            "id": "ms-gsl",
+            "name": "ms-gsl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "freetype",
+            "name": "freetype",
+            "profiles": "macos, draft, linux, windows",
+            "type": "regular",
+            "versions": "2.10.0, 2.10.1"
+        }
+    },
+    {
+        "data": {
+            "id": "mpfr",
+            "name": "mpfr",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "4.0.2"
+        }
+    },
+    {
+        "data": {
+            "id": "assimp",
+            "name": "assimp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "5.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "nlohmann_json",
+            "name": "nlohmann_json",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.7.0, 3.7.3"
+        }
+    },
+    {
+        "data": {
+            "id": "hdf5",
+            "name": "hdf5",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.10.6, 1.10.5, 1.8.21"
+        }
+    },
+    {
+        "data": {
+            "id": "libx264",
+            "name": "libx264",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "20190605"
+        }
+    },
+    {
+        "data": {
+            "id": "entt",
+            "name": "entt",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.2.2"
+        }
+    },
+    {
+        "data": {
+            "id": "cpr",
+            "name": "cpr",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.0"
+        }
+    },
+    {
+        "data": {
+            "id": "boost",
+            "name": "boost",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.70.0, 1.71.0"
+        }
+    },
+    {
+        "data": {
+            "id": "fmt",
+            "name": "fmt",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "6.0.0, 6.1.2, 6.1.1, 5.3.0, 6.1.0"
+        }
+    },
+    {
+        "data": {
+            "id": "expat",
+            "name": "expat",
+            "profiles": "macos, draft, linux, windows",
+            "type": "regular",
+            "versions": "2.2.8, 2.2.9, 2.2.7"
+        }
+    },
+    {
+        "data": {
+            "id": "openjpeg",
+            "name": "openjpeg",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.3.1"
+        }
+    },
+    {
+        "data": {
+            "id": "tinyobjloader",
+            "name": "tinyobjloader",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0.6"
+        }
+    },
+    {
+        "data": {
+            "id": "clara",
+            "name": "clara",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1.5"
+        }
+    },
+    {
+        "data": {
+            "id": "libjpeg-turbo",
+            "name": "libjpeg-turbo",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.0.2"
+        }
+    },
+    {
+        "data": {
+            "id": "libfdk_aac",
+            "name": "libfdk_aac",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "doctest",
+            "name": "doctest",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.3.5"
+        }
+    },
+    {
+        "data": {
+            "id": "gsl-lite",
+            "name": "gsl-lite",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.34.0"
+        }
+    },
+    {
+        "data": {
+            "id": "date",
+            "name": "date",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.4.1"
+        }
+    },
+    {
+        "data": {
+            "id": "dirent",
+            "name": "dirent",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.23.2"
+        }
+    },
+    {
+        "data": {
+            "id": "glog",
+            "name": "glog",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.4.0"
+        }
+    },
+    {
+        "data": {
+            "id": "minizip",
+            "name": "minizip",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.2.11"
+        }
+    },
+    {
+        "data": {
+            "id": "timsort",
+            "name": "timsort",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.2.0, 2.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "asio",
+            "name": "asio",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.12.2, 1.13.0"
+        }
+    },
+    {
+        "data": {
+            "id": "mbedtls",
+            "name": "mbedtls",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.16.3-gpl, 2.16.3-apache"
+        }
+    },
+    {
+        "data": {
+            "id": "lz4",
+            "name": "lz4",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.9.2"
+        }
+    },
+    {
+        "data": {
+            "id": "tbb",
+            "name": "tbb",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2020.0, 2019_u9"
+        }
+    },
+    {
+        "data": {
+            "id": "nasm",
+            "name": "nasm",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.13.01, 2.13.02, 2.14"
+        }
+    },
+    {
+        "data": {
+            "id": "openal",
+            "name": "openal",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.19.1"
+        }
+    },
+    {
+        "data": {
+            "id": "libarchive",
+            "name": "libarchive",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.4.0"
+        }
+    },
+    {
+        "data": {
+            "id": "cgal",
+            "name": "cgal",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "5.0"
+        }
+    },
+    {
+        "data": {
+            "id": "nanorange",
+            "name": "nanorange",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "20191001"
+        }
+    },
+    {
+        "data": {
+            "id": "libcurl",
+            "name": "libcurl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "7.64.1, 7.66.0, 7.67.0"
+        }
+    },
+    {
+        "data": {
+            "id": "flatc",
+            "name": "flatc",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.11.0"
+        }
+    },
+    {
+        "data": {
+            "id": "c-ares",
+            "name": "c-ares",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.15.0, 1.14.0"
+        }
+    },
+    {
+        "data": {
+            "id": "xerces-c",
+            "name": "xerces-c",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.2.2"
+        }
+    },
+    {
+        "data": {
+            "id": "mysql-connector-c",
+            "name": "mysql-connector-c",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "6.1.11"
+        }
+    },
+    {
+        "data": {
+            "id": "eigen",
+            "name": "eigen",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.3.7"
+        }
+    },
+    {
+        "data": {
+            "id": "zlib",
+            "name": "zlib",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.2.11, 1.2.8"
+        }
+    },
+    {
+        "data": {
+            "id": "libnghttp2",
+            "name": "libnghttp2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.39.2"
+        }
+    },
+    {
+        "data": {
+            "id": "ninja",
+            "name": "ninja",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.9.0"
+        }
+    },
+    {
+        "data": {
+            "id": "yaml-cpp",
+            "name": "yaml-cpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.6.3"
+        }
+    },
+    {
+        "data": {
+            "id": "openexr",
+            "name": "openexr",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.4.0, 2.3.0"
+        }
+    },
+    {
+        "data": {
+            "id": "double-conversion",
+            "name": "double-conversion",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.1.4, 3.1.5"
+        }
+    },
+    {
+        "data": {
+            "id": "stduuid",
+            "name": "stduuid",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0"
+        }
+    },
+    {
+        "data": {
+            "id": "gflags",
+            "name": "gflags",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.2.2"
+        }
+    },
+    {
+        "data": {
+            "id": "http_parser",
+            "name": "http_parser",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.9.2"
+        }
+    },
+    {
+        "data": {
+            "id": "picojson",
+            "name": "picojson",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.0"
+        }
+    },
+    {
+        "data": {
+            "id": "spdlog",
+            "name": "spdlog",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.4.2"
+        }
+    },
+    {
+        "data": {
+            "id": "meson",
+            "name": "meson",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.52.1, 0.52.0, 0.53.0, 0.51.2"
+        }
+    },
+    {
+        "data": {
+            "id": "giflib",
+            "name": "giflib",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "5.1.4"
+        }
+    },
+    {
+        "data": {
+            "id": "libwebp",
+            "name": "libwebp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0.3"
+        }
+    },
+    {
+        "data": {
+            "id": "cccl",
+            "name": "cccl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1"
+        }
+    },
+    {
+        "data": {
+            "id": "enum-flags",
+            "name": "enum-flags",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.1a"
+        }
+    },
+    {
+        "data": {
+            "id": "7zip",
+            "name": "7zip",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "19.00"
+        }
+    },
+    {
+        "data": {
+            "id": "libmount",
+            "name": "libmount",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.33.1"
+        }
+    },
+    {
+        "data": {
+            "id": "re2",
+            "name": "re2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "20191101"
+        }
+    },
+    {
+        "data": {
+            "id": "gtest",
+            "name": "gtest",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.8.1, 1.10.0"
+        }
+    },
+    {
+        "data": {
+            "id": "range-v3",
+            "name": "range-v3",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.9.1"
+        }
+    },
+    {
+        "data": {
+            "id": "snappy",
+            "name": "snappy",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1.7"
+        }
+    },
+    {
+        "data": {
+            "id": "odbc",
+            "name": "odbc",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.3.7"
+        }
+    },
+    {
+        "data": {
+            "id": "libelf",
+            "name": "libelf",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.8.13"
+        }
+    },
+    {
+        "data": {
+            "id": "libssh2",
+            "name": "libssh2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.9.0, 1.8.2, 1.8.0"
+        }
+    },
+    {
+        "data": {
+            "id": "sqlite3",
+            "name": "sqlite3",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.29.0, 3.30.1"
+        }
+    },
+    {
+        "data": {
+            "id": "yas",
+            "name": "yas",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "7.0.4"
+        }
+    },
+    {
+        "data": {
+            "id": "make",
+            "name": "make",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "4.2.1"
+        }
+    },
+    {
+        "data": {
+            "id": "jom",
+            "name": "jom",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1.3"
+        }
+    },
+    {
+        "data": {
+            "id": "zstd",
+            "name": "zstd",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.8, 1.4.3"
+        }
+    },
+    {
+        "data": {
+            "id": "cctz",
+            "name": "cctz",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.3"
+        }
+    },
+    {
+        "data": {
+            "id": "libunwind",
+            "name": "libunwind",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.3.1"
+        }
+    },
+    {
+        "data": {
+            "id": "libsodium",
+            "name": "libsodium",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0.18"
+        }
+    },
+    {
+        "data": {
+            "id": "libdwarf",
+            "name": "libdwarf",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "20191104"
+        }
+    },
+    {
+        "data": {
+            "id": "cpp-sort",
+            "name": "cpp-sort",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.5.1"
+        }
+    },
+    {
+        "data": {
+            "id": "mpir",
+            "name": "mpir",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "catch2",
+            "name": "catch2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.9.2, 2.11.0"
+        }
+    },
+    {
+        "data": {
+            "id": "libpq",
+            "name": "libpq",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "11.5"
+        }
+    },
+    {
+        "data": {
+            "id": "sqlpp11",
+            "name": "sqlpp11",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.58"
+        }
+    },
+    {
+        "data": {
+            "id": "sqlitecpp",
+            "name": "sqlitecpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.4.0"
+        }
+    },
+    {
+        "data": {
+            "id": "xtl",
+            "name": "xtl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.6.9, 0.6.10"
+        }
+    },
+    {
+        "data": {
+            "id": "libmysqlclient",
+            "name": "libmysqlclient",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "8.0.17"
+        }
+    },
+    {
+        "data": {
+            "id": "rapidjson",
+            "name": "rapidjson",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1.0"
+        }
+    },
+    {
+        "data": {
+            "id": "libressl",
+            "name": "libressl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.0.2, 2.9.2"
+        }
+    },
+    {
+        "data": {
+            "id": "pcre2",
+            "name": "pcre2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "10.33, 10.32"
+        }
+    },
+    {
+        "data": {
+            "id": "libevent",
+            "name": "libevent",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.1.11"
+        }
+    },
+    {
+        "data": {
+            "id": "leptonica",
+            "name": "leptonica",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.78.0"
+        }
+    },
+    {
+        "data": {
+            "id": "flatbuffers",
+            "name": "flatbuffers",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.11.0"
+        }
+    },
+    {
+        "data": {
+            "id": "pcre",
+            "name": "pcre",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "8.41"
+        }
+    },
+    {
+        "data": {
+            "id": "libgit2",
+            "name": "libgit2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.28.3"
+        }
+    },
+    {
+        "data": {
+            "id": "tgbot",
+            "name": "tgbot",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.2"
+        }
+    },
+    {
+        "data": {
+            "id": "mozjpeg",
+            "name": "mozjpeg",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.3.1"
+        }
+    },
+    {
+        "data": {
+            "id": "jsonformoderncpp",
+            "name": "jsonformoderncpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.7.0"
+        }
+    },
+    {
+        "data": {
+            "id": "span-lite",
+            "name": "span-lite",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.6.0"
+        }
+    },
+    {
+        "data": {
+            "id": "backward-cpp",
+            "name": "backward-cpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.4"
+        }
+    },
+    {
+        "data": {
+            "id": "uriparser",
+            "name": "uriparser",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.9.3"
+        }
+    },
+    {
+        "data": {
+            "id": "fftw",
+            "name": "fftw",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.3.8"
+        }
+    },
+    {
+        "data": {
+            "id": "openssl",
+            "name": "openssl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0.2t, 1.1.1d, 1.1.0k, 1.0.2s, 1.1.0l, 1.1.1c"
+        }
+    },
+    {
+        "data": {
+            "id": "strawberryperl",
+            "name": "strawberryperl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "5.30.0.1, 5.28.1.1"
+        }
+    },
+    {
+        "data": {
+            "id": "libusb",
+            "name": "libusb",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0.23"
+        }
+    },
+    {
+        "data": {
+            "id": "glm",
+            "name": "glm",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.9.9.7, 0.9.9.6, 0.9.9.5"
+        }
+    },
+    {
+        "data": {
+            "id": "corrade",
+            "name": "corrade",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2019.10"
+        }
+    },
+    {
+        "data": {
+            "id": "rttr",
+            "name": "rttr",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.9.6"
+        }
+    },
+    {
+        "data": {
+            "id": "expected-lite",
+            "name": "expected-lite",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.3.0"
+        }
+    },
+    {
+        "data": {
+            "id": "irrxml",
+            "name": "irrxml",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.2"
+        }
+    },
+    {
+        "data": {
+            "id": "eastl",
+            "name": "eastl",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.15.00"
+        }
+    },
+    {
+        "data": {
+            "id": "docopt.cpp",
+            "name": "docopt.cpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.6.2"
+        }
+    },
+    {
+        "data": {
+            "id": "jasper",
+            "name": "jasper",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "2.0.14"
+        }
+    },
+    {
+        "data": {
+            "id": "libev",
+            "name": "libev",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "4.25, 4.27"
+        }
+    },
+    {
+        "data": {
+            "id": "xz_utils",
+            "name": "xz_utils",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "5.2.4"
+        }
+    },
+    {
+        "data": {
+            "id": "protobuf",
+            "name": "protobuf",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.9.1"
+        }
+    },
+    {
+        "data": {
+            "id": "libsolace",
+            "name": "libsolace",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.3.6, 0.3.9, 0.3.7"
+        }
+    },
+    {
+        "data": {
+            "id": "libsigcpp",
+            "name": "libsigcpp",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.0.0"
+        }
+    },
+    {
+        "data": {
+            "id": "lyra",
+            "name": "lyra",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.1.0, 1.0.0, 1.2.0"
+        }
+    },
+    {
+        "data": {
+            "id": "icu",
+            "name": "icu",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "64.2"
+        }
+    },
+    {
+        "data": {
+            "id": "bzip2",
+            "name": "bzip2",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.0.6, 1.0.8"
+        }
+    },
+    {
+        "data": {
+            "id": "libffi",
+            "name": "libffi",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "3.2.1"
+        }
+    },
+    {
+        "data": {
+            "id": "poco",
+            "name": "poco",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "1.8.1, 1.9.4, 1.9.3"
+        }
+    },
+    {
+        "data": {
+            "id": "lzma_sdk",
+            "name": "lzma_sdk",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "9.20"
+        }
+    },
+    {
+        "data": {
+            "id": "kitten",
+            "name": "kitten",
+            "profiles": "macos, linux, windows",
+            "type": "regular",
+            "versions": "0.0.1, 0.1.0"
+        }
+    },
+    {
+        "data": {
+            "id": "podofo",
+            "name": "podofo",
+            "profiles": "draft",
+            "type": "draft",
+            "versions": "draft"
+        }
+    },
+    {
+        "data": {
+            "id": "fontconfig",
+            "name": "fontconfig",
+            "profiles": "draft",
+            "type": "draft",
+            "versions": "draft"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libtiff",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "amqp-cpp",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libxml2",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libxml2",
+            "target": "libiconv"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libpng",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "simple-websocket-server",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "simple-websocket-server",
+            "target": "asio"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "freetype",
+            "target": "libpng"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "freetype",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "freetype",
+            "target": "bzip2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "mpfr",
+            "target": "mpir"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "assimp",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "assimp",
+            "target": "irrxml"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "hdf5",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libx264",
+            "target": "nasm"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "cpr",
+            "target": "libcurl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "cpr",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "boost",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "boost",
+            "target": "bzip2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libjpeg-turbo",
+            "target": "nasm"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "glog",
+            "target": "gflags"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "minizip",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "minizip",
+            "target": "bzip2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "mbedtls",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libarchive",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libarchive",
+            "target": "libiconv"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "cgal",
+            "target": "mpir"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "cgal",
+            "target": "mpfr"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "cgal",
+            "target": "boost"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "cgal",
+            "target": "eigen"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libcurl",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "mysql-connector-c",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "mysql-connector-c",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libnghttp2",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libnghttp2",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libnghttp2",
+            "target": "c-ares"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libnghttp2",
+            "target": "libev"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libnghttp2",
+            "target": "libxml2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libnghttp2",
+            "target": "jansson"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "openexr",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "stduuid",
+            "target": "ms-gsl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "stduuid",
+            "target": "libuuid"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "spdlog",
+            "target": "fmt"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "meson",
+            "target": "ninja"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "odbc",
+            "target": "libiconv"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libssh2",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libssh2",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libdwarf",
+            "target": "libelf"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libdwarf",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "mpir",
+            "target": "yasm"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libpq",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "sqlpp11",
+            "target": "date"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "sqlitecpp",
+            "target": "sqlite3"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libmysqlclient",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libmysqlclient",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "pcre2",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "pcre2",
+            "target": "bzip2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libevent",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "leptonica",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "leptonica",
+            "target": "libjpeg"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "leptonica",
+            "target": "libpng"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "leptonica",
+            "target": "libtiff"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "leptonica",
+            "target": "openjpeg"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "leptonica",
+            "target": "libwebp"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "pcre",
+            "target": "bzip2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "pcre",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libgit2",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libgit2",
+            "target": "http_parser"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libgit2",
+            "target": "libssh2"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libgit2",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "tgbot",
+            "target": "boost"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "tgbot",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "tgbot",
+            "target": "libcurl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "mozjpeg",
+            "target": "nasm"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "openssl",
+            "target": "zlib"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "eastl",
+            "target": "eabase"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "jasper",
+            "target": "libjpeg"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "poco",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "openal",
+            "target": "libalsa"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libcurl",
+            "target": "openssl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libunwind",
+            "target": "xz_utils"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "backward-cpp",
+            "target": "libdwarf"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "msys2",
+            "target": "7zip"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "7zip",
+            "target": "lzma_sdk"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "libpq",
+            "target": "strawberryperl"
+        }
+    },
+    {
+        "data": {
+            "etype": "regular",
+            "source": "icu",
+            "target": "msys2"
+        }
+    },
+    {
+        "data": {
+            "etype": "draft",
+            "source": "podofo",
+            "target": "fontconfig"
+        }
+    },
+    {
+        "data": {
+            "etype": "draft",
+            "source": "fontconfig",
+            "target": "freetype"
+        }
+    },
+    {
+        "data": {
+            "etype": "draft",
+            "source": "fontconfig",
+            "target": "expat"
+        }
+    },
+    {
+        "data": {
+            "etype": "draft",
+            "source": "fontconfig",
+            "target": "libuuid"
+        }
+    }
 ]

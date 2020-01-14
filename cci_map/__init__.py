@@ -159,7 +159,8 @@ if __name__ == "__main__":
 
     cytoscape_file = os.path.join(working_dir, 'data.json')
     log.info("Dump to JSON in '{}'".format(cytoscape_file))
-    tools.save(cytoscape_file, json.dumps(parsed, indent=4, sort_keys=True))
+    cytoscape = graph.export_cytoscape()
+    tools.save(cytoscape_file, json.dumps(cytoscape, indent=4, sort_keys=True))
 
     print("Some stats:")
     print(

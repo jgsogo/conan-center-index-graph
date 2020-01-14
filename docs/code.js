@@ -10,17 +10,19 @@
         layout: {
             name: 'dagre',  // https://github.com/cytoscape/cytoscape.js-dagre
             nodeDimensionsIncludeLabels: true,
-            rankSep: 100,
+            nodeSep: 100,
+            rankSep: 200,
+            //ranker: 'tight-tree',
         },
         ready: function () {
             //this.style().clear();
             this.nodes().forEach(function(ele) {
                 console.log(ele.id())
                 rect = document.getElementById('node-' + ele.id()).getBoundingClientRect();
-                ele.style({
-                    'width': rect.width/6.,
-                    'height': rect.height/6.,
-                  })
+                /*ele.style({
+                    'width': rect.width*8,
+                    'height': rect.height*8,
+                  })*/
               });
         }
     });
