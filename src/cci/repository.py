@@ -5,17 +5,18 @@ from dataclasses import dataclass, field
 from typing import Optional, Iterator
 
 import yaml
+from conans import tools
+from conans.model.ref import ConanFileReference
+
 from cci import types
 from cci.recipe import Recipe
 from cci.utils import run
-from conans import tools
-from conans.model.ref import ConanFileReference
 
 log = logging.getLogger(__name__)
 
 
 @dataclass
-class CCIRepository:
+class Repository:
     url: str
     branch: Optional[str]
     folder: Optional[types.PATH] = None

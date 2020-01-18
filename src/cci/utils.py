@@ -4,13 +4,17 @@ import os
 import re
 import subprocess
 import tempfile
-from conans.util.files import decode_text, get_abs_path, mkdir, walk
+from typing import List, Optional
+
+from conans.util.files import decode_text
+
+from cci import types
 
 log = logging.getLogger(__name__)
 
 
-def run(command, working_dir=None):
-    log.debug("Run command: '{}'".format(" ".join(command)))
+def run(command: List[str], working_dir: Optional[types.PATH] = None) -> str:
+    log.debug(f"Run command: {' '.join(command)}")
     out, _ = subprocess.Popen(command, stdout=subprocess.PIPE, cwd=working_dir).communicate()
     out = decode_text(out)
     log.debug(out)
@@ -18,12 +22,13 @@ def run(command, working_dir=None):
 
 
 @contextlib.contextmanager
-def temp_file():
+def temp_file() -> types.PATH:
     td = tempfile.mkdtemp()
+    tmpfile = os.path.join(td, 'tmpfile')
     try:
-        yield os.path.join(td, 'tmpfile')
+        yield tmpfile
     finally:
-        os.unlink(os.path.join(td, 'tmpfile'))
+        os.unlink(tmpfile)
         os.rmdir(td)
 
 
