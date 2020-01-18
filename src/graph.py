@@ -55,7 +55,7 @@ def main(conan, working_dir, args):
         if args.explode_options:
             log_line += f" | Options: '{recipe_.options}'"
         log.info(log_line)
-        reqs, breqs, pyreqs = conan.requiremens(recipe_, profile_)
+        reqs, breqs, pyreqs = conan.requirements(recipe_, profile_)
         return profile_, recipe_, reqs, breqs, pyreqs
 
     """
