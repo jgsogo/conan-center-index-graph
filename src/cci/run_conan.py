@@ -33,11 +33,12 @@ class ConanWrapper:
         try:
             with chdir(cwd or self._cwd):
                 r = self.cmd.run(command)
-                return r, self.stream.getvalue()
         except Exception as e:
             # Conan execution failed
             log.error(f"Command unexpectedly failed: {e}")
-        return -1, str(e)
+            return -1, str(e)
+        else:
+            return r, self.stream.getvalue()
 
     def inspect(self, recipe, attributes):
         # Return options attribute and default_options as dictionary
@@ -54,7 +55,7 @@ class ConanWrapper:
         log.info(f"Export recipe {recipe.ref}")
         self.run(command=["export", recipe.conanfile, f"{recipe.ref}@"])
 
-    def requiremens(self, recipe, profile):
+    def requirements(self, recipe, profile):
         options_cmd = []
         if recipe.options:
             for opt in recipe.options:
