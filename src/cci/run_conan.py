@@ -36,10 +36,10 @@ class ConanWrapper:
         self.stream.truncate(0)
         try:
             with chdir(cwd or self.cwd):
-                return_code = self.cmd.run(command)
+                self.cmd.run(command)
         except Exception as e:
             # Conan execution failed
-            log.error("Command failed: {}".format(e))
+            log.error(f"Command unexpectedly failed: {e}")
         return self.stream.getvalue()
 
 

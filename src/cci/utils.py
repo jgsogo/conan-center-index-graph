@@ -22,13 +22,21 @@ def run(command: List[str], working_dir: Optional[types.PATH] = None) -> str:
 
 
 @contextlib.contextmanager
-def temp_file() -> types.PATH:
+def temp_file(filename: str = 'tmpfile') -> types.PATH:
+    with temp_folder() as tf:
+        tmpfile = os.path.join(tf, filename)
+        try:
+            yield tmpfile
+        finally:
+            os.unlink(tmpfile)
+
+
+@contextlib.contextmanager
+def temp_folder() -> types.PATH:
     td = tempfile.mkdtemp()
-    tmpfile = os.path.join(td, 'tmpfile')
     try:
-        yield tmpfile
+        yield td
     finally:
-        os.unlink(tmpfile)
         os.rmdir(td)
 
 

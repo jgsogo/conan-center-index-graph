@@ -1,11 +1,11 @@
 import os
-from collections import namedtuple
+from typing import Iterator
 
-import yaml
-from conans import tools
+from cci.types import PATH
 
 
-def get_profiles(profiles_dir):
+def get_profiles(profiles_dir: PATH) -> Iterator[PATH]:
     for it in os.listdir(profiles_dir):
-        if it == 'draft': continue
+        if it == 'draft':  # Ignore draft profile
+            continue
         yield os.path.join(profiles_dir, it)
