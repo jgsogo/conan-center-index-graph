@@ -3,3 +3,6 @@ _venv
 **/__pycache__
 .vscode/
 .idea/
+
+web/dist/main.js
+web/node_modules/
