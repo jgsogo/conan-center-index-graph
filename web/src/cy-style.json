@@ -1,0 +1,24 @@
+[{
+    "selector": "node",
+    "style": {
+        "shape": "rectangle",
+        "background-color": "#fff",
+        "border-width": "1px",
+        "border-style": "solid",
+        "border-color": "black",
+
+        "label": "",
+        "text-valign": "center",
+        "text-halign": "center"
+    }
+},
+{
+    "selector": "edge",
+    "style": {
+        "width": 1,
+        "line-color": "#000",
+        "target-arrow-color": "#000",
+        "curve-style": "bezier",
+        "target-arrow-shape": "triangle"
+    }
+}]
