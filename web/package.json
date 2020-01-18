@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "cytoscape": "^3.13.0",
+    "cytoscape-dagre": "^2.2.2",
     "lodash": "^4.17.15"
   },
   "description": ""

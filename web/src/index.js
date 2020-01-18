@@ -3,12 +3,11 @@ import './style.css';
 import data from './data.json';
 import style from './cy-style.json';
 
-import {cytoscape, toJSON, printMe} from './graph.js';
+import {get_graph, toJSON, printMe} from './graph.js';
 //import {toJson, cytoscape} from './graph.js';
 
-
 function component() {
-    const element = document.createElement('div');
+    const element = document.createElement('h1');
     const btn = document.createElement('button');
 
     element.innerHTML = _.join(['Hello', 'webpack'], ' ');
@@ -18,20 +17,18 @@ function component() {
     btn.onclick = printMe;
 
     element.appendChild(btn);
-
-    console.log(style);
-
     return element;
 }
 
-/*
+
 function create_graph() {
     const element = document.createElement('div');
-    const style = 23; //fetch('cy-style.json').then(toJson);
-    const data = 42; //fetch('data.json').then(toJson);
-    return cytoscape(element, data, style);
+
+    console.log(style);
+     get_graph(element, data, style);
+     return element;
 }
-*/
+
 
 document.body.appendChild(component());
-//document.body.appendChild(create_graph());
+document.body.appendChild(create_graph());

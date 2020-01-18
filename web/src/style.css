@@ -2,3 +2,26 @@
     color: red;
    
   }
+
+  #cy {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.cy-node-table {
+    border: 0px solid #ff0000;
+    text-align: center;
+    padding: 10px;
+}
+
+.cy-node-title {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.cy-node-data {
+    font-size: 0.6em;
+    font-weight: bold;
+    color: #bbb;
+}
