@@ -3,7 +3,7 @@ import logging
 import os
 import re
 import subprocess
-
+import tempfile
 from conans.util.files import decode_text, get_abs_path, mkdir, walk
 
 log = logging.getLogger(__name__)
@@ -16,6 +16,15 @@ def run(command, working_dir=None):
     log.debug(out)
     return out
 
+
+@contextlib.contextmanager
+def temp_file():
+    td = tempfile.mkdtemp()
+    try:
+        yield os.path.join(td, 'tmpfile')
+    finally:
+        os.unlink(os.path.join(td, 'tmpfile'))
+        os.rmdir(td)
 
 
 @contextlib.contextmanager

@@ -8,6 +8,7 @@ from conans import tools
 
 from cci.recipe import Recipe
 from cci.run_conan import run_conan
+from cci.utils import temp_file
 
 log = logging.getLogger(__name__)
 
@@ -27,10 +28,11 @@ def pop_options(options):
 
 def explode_options(recipe):
     assert not recipe.options, "Unexpected: recipe with options"
-    output_file = os.path.join('.options', recipe.ref_str)
-    cmd = ['inspect', '-a', 'options', '--json', output_file, recipe.conanfile]
-    run_conan(cmd)
-    options = json.loads(tools.load(output_file))['options']
+
+    with temp_file() as output_file:
+        cmd = ['inspect', '-a', 'options', '--json', output_file, recipe.conanfile]
+        run_conan(cmd)
+        options = json.loads(tools.load(output_file))['options']
     options = pop_options(options)
 
     if options:
@@ -49,11 +51,12 @@ def explode_options(recipe):
         for combination in product(*opts_as_str):
             yield Recipe(ref=recipe.ref, conanfile=recipe.conanfile, options=tuple(combination))
 
-    cmd = ['inspect', '-a', 'default_options', '--json', output_file, recipe.conanfile]
-    run_conan(cmd)
-    default_options = json.loads(tools.load(output_file))['default_options']
+    with temp_file() as output_file:
+        cmd = ['inspect', '-a', 'default_options', '--json', output_file, recipe.conanfile]
+        run_conan(cmd)
+        default_options = json.loads(tools.load(output_file))['default_options']
     default_options = pop_options(default_options)
-    combination = None
+    combination = ()
     if default_options:
         combination = ("{}={}".format(k, v) for k, v in default_options.items())
     yield Recipe(ref=recipe.ref, conanfile=recipe.conanfile, options=combination)

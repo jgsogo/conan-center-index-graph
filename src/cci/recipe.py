@@ -12,5 +12,6 @@ class Recipe:
     is_draft: bool = False
     is_proxy: bool = False
 
+    @property
     def ref_str(self):
         return f"{self.ref.name}-{self.ref.version}"
