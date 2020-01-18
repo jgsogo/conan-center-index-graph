@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 from dataclasses import dataclass
 from itertools import product
@@ -9,8 +10,9 @@ from conans.model.ref import ConanFileReference
 
 from cci import types
 from cci.run_conan import ConanWrapper
-from cci.utils import temp_file
+from cci.utils import temp_file, temp_folder
 
+log = logging.getLogger(__name__)
 
 @dataclass
 class Recipe:
@@ -48,9 +50,9 @@ class Recipe:
             for opt in self.options:
                 options_cmd.extend(['-o', opt])
 
-        with temp_file() as output_file:
+        with temp_file('conan.lock') as output_file:
             cmd = ['graph', 'lock', '--build', '--profile', profile, '--lockfile', output_file]\
-                  + options_cmd + [self.ref + '@']
+                  + options_cmd + [f"{self.ref}@"]
 
             try:
                 r = ConanWrapper().run(cmd)
@@ -74,6 +76,10 @@ class Recipe:
                 log.error(f" - profile: {os.path.basename(profile)}")
                 log.error(r)
         return None, None
+
+    def export(self):
+        log.info(f"Export recipe {self.ref}")
+        ConanWrapper().run(command=["export", self.conanfile, f"{self.ref}@"])
 
 
 def explode_options(recipe):
@@ -106,7 +112,7 @@ def explode_options(recipe):
     # Use default options (always)
     combination = ()
     if default_options:
-        combination = ("{}={}".format(k, v) for k, v in default_options.items())
+        combination = tuple("{}={}".format(k, v) for k, v in default_options.items())
     yield Recipe(ref=recipe.ref, conanfile=recipe.conanfile, options=combination,
                  is_draft=recipe.is_draft, is_proxy=recipe.is_proxy)
 

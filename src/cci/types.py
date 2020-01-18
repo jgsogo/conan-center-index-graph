@@ -1,3 +1,3 @@
-from typing import Union, Text, Optional
+from typing import Union, Text
 
 PATH = Union[bytes, Text]
