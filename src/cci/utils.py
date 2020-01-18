@@ -28,7 +28,8 @@ def temp_file(filename: str = 'tmpfile') -> types.PATH:
         try:
             yield tmpfile
         finally:
-            os.unlink(tmpfile)
+            if os.path.exists(tmpfile):
+                os.unlink(tmpfile)
 
 
 @contextlib.contextmanager
