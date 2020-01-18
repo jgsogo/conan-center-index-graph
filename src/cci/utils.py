@@ -8,9 +8,10 @@ from conans.util.files import decode_text, get_abs_path, mkdir, walk
 
 log = logging.getLogger(__name__)
 
-def run(command):
+
+def run(command, working_dir=None):
     log.debug("Run command: '{}'".format(" ".join(command)))
-    out, _ = subprocess.Popen(command, stdout=subprocess.PIPE).communicate()
+    out, _ = subprocess.Popen(command, stdout=subprocess.PIPE, cwd=working_dir).communicate()
     out = decode_text(out)
     log.debug(out)
     return out

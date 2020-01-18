@@ -2,28 +2,25 @@ import argparse
 import logging
 import os
 import shutil
-import subprocess
-from collections import namedtuple
 from itertools import product
 from multiprocessing.dummy import Pool as ThreadPool
 
 from conans import tools
 from conans.client.tools import chdir
-from conans.util.files import decode_text, get_abs_path, mkdir, walk
 
-from cci_recipe_list import get_recipe_drafts, get_recipe_list
+from cci_recipe_list import get_recipe_drafts
 from graph import Graph
-from recipe_options import explode_options, explode_options_without_duplicates
+from recipe_options import explode_options_without_duplicates
 from recipe_requirements import get_requirements
 from run_conan import run_conan
 from settings import get_profiles
 from utils import context_env, run
-
+from src.cci.recipes import get_recipe_list
+from src.cci.repository import Repository
 log = logging.getLogger(__name__)
 me = os.path.abspath(os.path.dirname(__file__))
 
-Repo = namedtuple("Repo", ["url", "branch"])
-conan_center_index = Repo('https://github.com/conan-io/conan-center-index.git', 'master')
+conan_center_index = Repository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
 
 
 def clone(repo):
@@ -81,6 +78,15 @@ if __name__ == "__main__":
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     ch.setFormatter(formatter)
     log.addHandler(ch)
+
+    draft_folder = os.path.join(me, '..', 'recipe_drafts') if args.add_drafts else None
+    recipes = get_recipe_list(cci=conan_center_index, cwd=working_dir, draft_folder=None,
+                              explode_options=args.explode_options)
+
+    for it in recipes:
+        log.info(f" - recipe: {it}")
+    exit()
+
 
     with chdir(working_dir):
         # Clone Conan Center Index
