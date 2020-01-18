@@ -25,7 +25,7 @@ def configure_log():
 
 def main(working_dir, args):
     draft_folder = os.path.join(me, '..', 'recipe_drafts') if args.add_drafts else None
-    recipes = get_recipe_list(cci=conan_center_index, cwd=working_dir, draft_folder=draft_folder,
+    recipes = get_recipe_list(cci_repo=conan_center_index, cwd=working_dir, draft_folder=draft_folder,
                               explode_options=args.explode_options)
 
     for it in recipes:
