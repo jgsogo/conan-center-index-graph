@@ -5,6 +5,8 @@ import os
 import shutil
 from typing import Tuple
 
+from conans import tools
+
 from cci.graph import Graph
 from cci.recipe import Recipe
 from cci.recipes import explode_options_without_duplicates
@@ -13,7 +15,7 @@ from cci.repository import Repository
 from cci.run_conan import ConanWrapper
 from cci.settings import get_profiles
 from cci.types import PATH
-from conans import tools
+
 conan_center_index = Repository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
 
 
@@ -30,7 +32,7 @@ def configure_log():
     log.addHandler(ch)
 
 
-def main(conan, working_dir, args):
+def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
     # Get recipes
     draft_folder = os.path.join(me, '..', 'recipe_drafts') if args.add_drafts else None
     recipes = list(get_recipe_list(cci_repo=conan_center_index, cwd=working_dir, draft_folder=draft_folder))
@@ -49,7 +51,7 @@ def main(conan, working_dir, args):
 
     all_jobs = itertools.product(profiles, itertools.chain.from_iterable(all_jobs))
 
-    def _per_job(profile_recipe: Tuple[PATH, Recipe]):
+    def _per_job(profile_recipe: Tuple[PATH, Recipe]) -> Tuple[PATH, Recipe, list, list, list]:
         profile_, recipe_ = profile_recipe
         log_line = f"Recipe: '{recipe_.ref}' | Profile: '{os.path.basename(profile_)}'"
         if args.explode_options:
