@@ -70,7 +70,7 @@ class ConanWrapper:
                 if 'Invalid configuration' in out:
                     return None, None, None
                 elif r != 0:
-                    log.warning(out)
+                    log.warning(f"Error in recipe {recipe.ref}: {out}")
                     return None, None, None
 
                 content = json.loads(tools.load(output_file))
@@ -85,7 +85,7 @@ class ConanWrapper:
 
                 assert False, "Never get here!"
             except Exception as e:
-                log.error(f"Error!!! {e}")
+                log.error(f"Error in recipe {recipe.ref}!!! {e}")
                 log.error(f" - recipe: {recipe.ref}")
                 log.error(f" - profile: {os.path.basename(profile)}")
                 log.error(r)

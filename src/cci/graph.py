@@ -28,19 +28,19 @@ class Graph:
     color_default = 'black'
     color_draft = 'gray70'
 
-    def add_node(self, ref, profile=None, is_draft=False):
-        name, version = ref.name, ref.version
-        node = self.nodes.setdefault(name, Node(name, is_draft=is_draft))
-        node.versions.add(version)
-        if profile:
-            node.profiles.add(profile)
+    def add_node(self, ref, profile, is_draft):
+        node = self._add_node(ref)
+        node.is_draft = is_draft
+        node.profiles.add(profile)
+        node.versions.add(ref.version)
         return node
 
-    def add_edge(self, ref_origin, ref_target, profile, is_draft=False):
-        ori = self.add_node(ref_origin)
-        ori.profiles.add(profile)
-        dst = self.add_node(ref_target)
-        dst.profiles.add(profile)
+    def _add_node(self, ref):
+        return self.nodes.setdefault(ref.name, Node(ref.name, is_draft=None))
+
+    def add_edge(self, ref_origin, ref_target, profile, is_draft):
+        ori = self._add_node(ref_origin)
+        dst = self._add_node(ref_target)
         edge = self.edges.setdefault((ori, dst), Edge(ori, dst, is_draft))
         edge.profiles.add(profile)
         return edge
