@@ -1,23 +1,12 @@
-
-import os
-import shutil
-import sys
-import tempfile
-import unittest
-import uuid
-from contextlib import contextmanager
-
-from conans import __version__ as conan_version
-from conans.client.command import Command, CommandOutputer, Conan
-from conans.model.version import Version
-from cci import types
-from typing import List, Optional
 import logging
+import sys
+from io import StringIO
+from typing import List, Optional
+
+from conans.client.command import Command, Conan
 from conans.client.tools import chdir
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
+
+from cci import types
 
 log = logging.getLogger(__name__)
 
