@@ -5,8 +5,7 @@ from typing import Optional, Iterator, List
 from conans.model.ref import ConanFileReference
 
 import cci.types
-from cci.recipe import Recipe
-from cci.recipe_options import explode_options_without_duplicates
+from cci.recipe import Recipe, explode_options_without_duplicates
 from cci.repository import Repository
 
 log = logging.getLogger(__name__)
