@@ -37,6 +37,8 @@ jobs:
         dot -Tpng -Gdpi=300 _working_dir/graphviz.dot > _output/graph.png
         dot -Tpdf -Gdpi=300 _working_dir/graphviz-drafts.dot > _output/graph-drafts.pdf
         dot -Tpng -Gdpi=300 _working_dir/graphviz-drafts.dot > _output/graph-drafts.png
+        dot -Tjson _working_dir/graphviz.dot > _output/graph.json
+        dot -Tjson _working_dir/graphviz-drafts.dot > _output/graph-drafts.json
 
     - name: Upload graph-pdf
       uses: actions/upload-artifact@v1
@@ -48,7 +50,12 @@ jobs:
       with:
         name: graph-png
         path: _output/graph.png
-
+    - name: Upload graph-json
+      uses: actions/upload-artifact@v1
+      with:
+        name: graph-json
+        path: _output/graph.json
+      
     - name: Deploy to gh-pages
       run: |
         cd _output
