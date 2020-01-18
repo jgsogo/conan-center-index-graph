@@ -6,8 +6,8 @@ from itertools import product
 
 from conans import tools
 
-from cci_recipe_list import Recipe
-from run_conan import run_conan
+from cci.recipe import Recipe
+from cci.run_conan import run_conan
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ def pop_options(options):
 
 def explode_options(recipe):
     assert not recipe.options, "Unexpected: recipe with options"
-    output_file = os.path.join('.options', recipe.ref)
+    output_file = os.path.join('.options', recipe.ref_str)
     cmd = ['inspect', '-a', 'options', '--json', output_file, recipe.conanfile]
     run_conan(cmd)
     options = json.loads(tools.load(output_file))['options']

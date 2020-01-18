@@ -29,7 +29,7 @@ jobs:
 
     - name: Compute graph
       run: |
-        python cci_map/__init__.py --add-drafts --threads 1
+        python src/__init__.py --add-drafts --threads 1
     - name: Generate PDF/PNG from graph
       run: |
         mkdir _output
