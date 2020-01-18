@@ -29,7 +29,7 @@ class Graph:
     color_draft = 'gray70'
 
     def add_node(self, ref, profile=None, is_draft=False):
-        name, version = ref.split('/')
+        name, version = ref.name, ref.version
         node = self.nodes.setdefault(name, Node(name, is_draft=is_draft))
         node.versions.add(version)
         if profile:

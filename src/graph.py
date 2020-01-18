@@ -13,7 +13,7 @@ from cci.repository import Repository
 from cci.run_conan import ConanWrapper
 from cci.settings import get_profiles
 from cci.types import PATH
-
+from conans import tools
 conan_center_index = Repository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
 
 
@@ -70,8 +70,28 @@ def main(conan, working_dir, args):
 
     results = map(_per_job, all_jobs)
     for profile, recipe, reqs, breqs, pyreqs in results:
-        log.info(recipe)
+        graph.add_node(recipe.ref, profile, is_draft=recipe.is_draft)
+        for it in (reqs or []) + (breqs or []) + (pyreqs or []):
+            graph.add_edge(recipe.ref, it, profile, is_draft=recipe.is_draft)
 
+    graphviz_file = os.path.join(working_dir, 'graphviz.dot')
+    log.info(f"Draw the graph in '{graphviz_file}'")
+    graphviz = graph.export_graphviz(include_drafts=False)
+    tools.save(graphviz_file, graphviz.source)
+
+    graphviz_w_drafts_file = os.path.join(working_dir, 'graphviz-drafts.dot')
+    log.info(f"Draw the graph (with drafts) in '{graphviz_w_drafts_file}'")
+    graphviz = graph.export_graphviz(include_drafts=True)
+    tools.save(graphviz_w_drafts_file, graphviz.source)
+
+    print("Some stats:")
+    print(" - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
+    print(" - requires relations: {}".format(len([it for it in graph.edges.values() if not it.is_draft])))
+    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values() if not n.is_draft])))
+    if args.add_drafts:
+        print("Added drafts:")
+        print(" - drafts: {}".format(len([it for it in graph.nodes.values() if it.is_draft])))
+        print(" - requires relations (drafts): {}".format(len([it for it in graph.edges.values() if it.is_draft])))
 
 
 if __name__ == '__main__':
@@ -82,13 +102,12 @@ if __name__ == '__main__':
     parser.add_argument('--add-drafts', action='store_true', help='Add recipe drafts')
     args = parser.parse_args()
 
-    configure_log()
-
     working_dir = os.path.abspath(os.path.join(me, '..', '_working_dir'))
     if os.path.exists(working_dir):
         shutil.rmtree(working_dir)
     os.mkdir(working_dir)
 
+    configure_log()
     conan = ConanWrapper(cwd=working_dir, conan_user_home=working_dir)
 
     main(conan, working_dir, args)

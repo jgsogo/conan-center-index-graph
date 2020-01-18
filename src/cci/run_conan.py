@@ -78,9 +78,9 @@ class ConanWrapper:
                     reference, _ = node['pref'].split('#')
                     ref = ConanFileReference.loads(reference)
                     if ref == recipe.ref:
-                        reqs = [k.split('#', 1)[0] for k, _ in node.get('requires', {}).items()]
-                        breqs = [k.split('#', 1)[0] for k, _ in node.get('build_requires', {}).items()]
-                        pyreqs = [k.split('#', 1)[0] for k, _ in node.get('python_requires', {}).items()]
+                        reqs = [ConanFileReference.loads(k.split('#', 1)[0]) for k, _ in node.get('requires', {}).items()]
+                        breqs = [ConanFileReference.loads(k.split('#', 1)[0]) for k, _ in node.get('build_requires', {}).items()]
+                        pyreqs = [ConanFileReference.loads(k.split('#', 1)[0]) for k, _ in node.get('python_requires', {}).items()]
                         return reqs, breqs, pyreqs
 
                 assert False, "Never get here!"
