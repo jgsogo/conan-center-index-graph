@@ -16,11 +16,11 @@ from run_conan import run_conan
 from settings import get_profiles
 from utils import context_env, run
 from src.cci.recipes import get_recipe_list
-from src.cci.repository import Repository
+from src.cci.cci_repository import CCIRepository
 log = logging.getLogger(__name__)
 me = os.path.abspath(os.path.dirname(__file__))
 
-conan_center_index = Repository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
+conan_center_index = CCIRepository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
 
 
 def clone(repo):

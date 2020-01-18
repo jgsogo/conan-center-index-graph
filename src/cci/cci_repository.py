@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 
 @dataclass
-class Repository:
+class CCIRepository:
     url: str
     branch: Optional[str]
     folder: Optional[types.PATH] = None
