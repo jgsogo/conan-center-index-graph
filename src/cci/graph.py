@@ -3,6 +3,7 @@ import os
 from datetime import date
 
 from graphviz import Digraph
+from collections import defaultdict
 
 
 class Node:
@@ -44,6 +45,39 @@ class Graph:
         edge = self.edges.setdefault((ori, dst), Edge(ori, dst, is_draft))
         edge.profiles.add(profile)
         return edge
+
+    def compute_max_connected_component(self, include_drafts):
+        # TODO: Improve this algorithm
+        components = []
+        _cmps_record = defaultdict(set)
+        for (ori, dst), edge in self.edges.items():
+            if not include_drafts and (ori.is_draft or dst.is_draft or edge.is_draft):
+                continue
+            for i, it in enumerate(components):
+                if ori.name in it or dst.name in it:
+                    it.add(ori.name)
+                    it.add(dst.name)
+                    _cmps_record[ori.name].add(i)
+                    _cmps_record[dst.name].add(i)
+                    break
+            else:
+                _cmps_record[ori.name].add(len(components))
+                _cmps_record[dst.name].add(len(components))
+                components.append({ori.name, dst.name})
+        
+        # Join the components
+        ret = [set() for _ in range(len(components))]
+        for _, v in _cmps_record.items():
+            p = min(v)
+            for it in v:
+                ret[p].update(components[it])
+                ret[p].update(ret[it])
+                if it != p:
+                    ret[it].clear()
+                    components[it].clear()
+
+        ret = [it for it in ret if len(it)]
+        return ret
 
     def export_graphviz(self, include_drafts):
         today = date.today().strftime("%B %d, %Y")
