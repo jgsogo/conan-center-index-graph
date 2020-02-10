@@ -55,6 +55,13 @@ class ConanWrapper:
         log.info(f"Export recipe {recipe.ref}")
         self.run(command=["export", recipe.conanfile, f"{recipe.ref}@"])
 
+    @staticmethod
+    def get_reference(nodes, node_id):
+        node = nodes[node_id]
+        reference, _ = node['pref'].split('#')
+        ref = ConanFileReference.loads(reference)
+        return ref
+
     def requirements(self, recipe, profile):
         options_cmd = []
         if recipe.options:
@@ -74,13 +81,14 @@ class ConanWrapper:
                     return None, None, None
 
                 content = json.loads(tools.load(output_file))
-                for _, node in content['graph_lock']['nodes'].items():
+                nodes = content['graph_lock']['nodes']
+                for _, node in nodes.items():
                     reference, _ = node['pref'].split('#')
                     ref = ConanFileReference.loads(reference)
                     if ref == recipe.ref:
-                        reqs = [ConanFileReference.loads(k.split('#', 1)[0]) for k, _ in node.get('requires', {}).items()]
-                        breqs = [ConanFileReference.loads(k.split('#', 1)[0]) for k, _ in node.get('build_requires', {}).items()]
-                        pyreqs = [ConanFileReference.loads(k.split('#', 1)[0]) for k, _ in node.get('python_requires', {}).items()]
+                        reqs = [self.get_reference(nodes, it) for it in node.get('requires', [])]
+                        breqs = [self.get_reference(nodes, it) for it in node.get('build_requires', [])]
+                        pyreqs = [self.get_reference(nodes, it) for it in node.get('python_requires', [])]
                         return reqs, breqs, pyreqs
 
                 assert False, "Never get here!"
