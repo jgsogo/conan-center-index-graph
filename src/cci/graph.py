@@ -47,6 +47,7 @@ class Graph:
         return edge
 
     def compute_max_connected_component(self, include_drafts):
+        """ Return list of list of connected nodes (it doesn't return isolated nodes) """
         # TODO: Improve this algorithm
         components = []
         _cmps_record = defaultdict(set)
