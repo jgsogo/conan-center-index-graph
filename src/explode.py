@@ -3,20 +3,22 @@ import itertools
 import logging
 import os
 import shutil
+import json
 from typing import Tuple
-import itertools
-from collections import Iterable
+from collections import defaultdict
 
 from conans import tools
 
 from cci.graph import Graph
 from cci.recipe import Recipe
-from cci.recipes import explode_options_without_duplicates
+from cci.recipes import explode_shared_option
 from cci.recipes import get_recipe_list
 from cci.repository import Repository
 from cci.run_conan import ConanWrapper
 from cci.settings import get_profiles
 from cci.types import PATH
+from cci.profiles import get_linux_profiles, get_windows_profiles, get_macos_profiles
+from cci.utils import temp_file
 
 conan_center_index = Repository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
 
@@ -33,156 +35,81 @@ def configure_log():
     ch.setFormatter(formatter)
     log.addHandler(ch)
 
-def flatten(coll):
-    for i in coll:
-        if isinstance(i, Iterable) and not isinstance(i, str):
-            for subc in flatten(i):
-                yield subc
-        else:
-            yield i
-
-
-def get_profile_list(keys, profiles_generator):
-    ret = []
-    for pr in list(profiles_generator):
-        pr = [v if not isinstance(v, str) else (v, ) for v in pr]
-        for pr in itertools.product(*pr):
-            pr = flatten(pr)
-            ret.append({k: v for k, v in zip(keys, pr)})
-    return ret
-
 
 def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
-    use_cppstd = True
+    use_cppstd = args.use_cppstd
     # Get recipes
-    #recipes = list(get_recipe_list(cci_repo=conan_center_index, cwd=working_dir, draft_folder=None))
-    #log.info(f"Found {len(recipes)} recipes")
+    recipes = list(get_recipe_list(cci_repo=conan_center_index, cwd=working_dir, draft_folder=None))
+    log.info(f"Found {len(recipes)} recipes")
 
-    # Get profiles
-    # - Linux
-    linux_keys = ('os', 'arch', 'compiler', 'compiler.version', 'compiler.libcxx', 'build_type')
-    linux_cppstd = ('98', '11', '14', '17', '20')
-    linux_profiles_generator = (
-        ('Linux',), 
-        ('x86', 'x86_64'), 
-        (
-            list(itertools.product(('gcc',), ("4.9", "5", "6", "7", "8", "9"), ('libstdc++', 'libstdc++11'))), 
-            list(itertools.product(('clang',), ("3.9", "4", "5", "6", "7", "8", "9"), ('libc++', 'libstdc++')))
-        ),
-        ('Debug', 'Release')
-    )
+    # Get settings profiles
+    linux_profiles = list(get_linux_profiles(use_cppstd))
+    windows_profiles = list(get_windows_profiles(use_cppstd))
+    macos_profiles = list(get_macos_profiles(use_cppstd))
 
-    if use_cppstd:
-        linux_keys = linux_keys + ('compiler.cppstd', )
-        linux_profiles_generator = linux_profiles_generator + (linux_cppstd, )
+    log.info(f"Computed {len(linux_profiles)} profiles for Linux")
+    log.info(f"Computed {len(windows_profiles)} profiles for Windows")
+    log.info(f"Computed {len(macos_profiles)} profiles for Macos")
 
-    linux_profiles = get_profile_list(linux_keys, itertools.product(*linux_profiles_generator))
-    for it in linux_profiles:
-        print(it)
-    return 
+    # Write down profiles
+    profiles = []
+    os.mkdir(os.path.join(working_dir, 'profiles'))
+    for i, profile in enumerate(linux_profiles + windows_profiles + macos_profiles):
+        path = os.path.join(working_dir, 'profiles', f'profile_{i}')
+        with open(path, 'w') as f:
+            f.write("[settings]\n")
+            for k, v in profile.items():
+                f.write(f"{k}={v}\n")
+        profiles.append(path)
 
-    linux_keys = ('os', 'arch', 'compiler', 'compiler.version', 'compiler.libcxx', 'build_type')
-    linux_profiles = itertools.product(
-        ('Linux',), 
-        ('x86', 'x86_64'), 
-        (
-            list(itertools.product(('gcc',), ("4.9", "5", "6", "7", "8", "9"), ('libstdc++', 'libstdc++11'))), 
-            list(itertools.product(('clang',), ("3.9", "4", "5", "6", "7", "8", "9"), ('libc++', 'libstdc++')))
-        ),
-        ('Debug', 'Release')
-    )
-    
-    linux_prs = []
-    for linux_pr in list(linux_profiles):
-        linux_pr = [v if not isinstance(v, str) else (v, ) for v in linux_pr]
-        for pr in itertools.product(*linux_pr):
-            pr = flatten(pr)
-            linux_prs.append({k: v for k, v in zip(linux_keys, pr)})
-
-    for it in linux_prs:
-        print(it)
-
-    return
-
-    
-    def yield_pr_elem(key, elem):
-        if not isinstance(elem, str):
-            for it in elem:
-                yield {key: it}
-        else:
-            yield {key: elem}
-
-    for it in list(linux_profiles):
-        pr = {}
-        for elem, key in zip(it, linux_keys):
-            pr.update(yield_pr_elem(key, elem))
-        linux_prs.append(pr)
-
-    for it in linux_prs:
-        print(it)
-    return
-    
-    profiles_dir = os.path.abspath(os.path.join(me, '..', 'conf', 'profiles'))
-    profiles = list(get_profiles(profiles_dir))  # TODO: Add filter using input cmd argument
-    log.info(f"Found {len(profiles)} profiles")
+    # Export all recipes
+    for recipe in recipes:
+        conan.export(recipe)
 
     # Start to work with Conan itself
     all_jobs = []
     for recipe in recipes:
-        conan.export(recipe)
-        all_jobs.append([recipe] if not args.explode_options else explode_options_without_duplicates(recipe))
+        all_jobs.append(explode_shared_option(recipe, conan))
 
     all_jobs = itertools.product(profiles, itertools.chain.from_iterable(all_jobs))
 
     def _per_job(profile_recipe: Tuple[PATH, Recipe]) -> Tuple[PATH, Recipe, list, list, list]:
         profile_, recipe_ = profile_recipe
-        log_line = f"Recipe: '{recipe_.ref}' | Profile: '{os.path.basename(profile_)}'"
-        if args.explode_options:
-            log_line += f" | Options: '{recipe_.options}'"
+        log_line = f"Recipe: '{recipe_.ref}' | Profile: '{profile_}' | Options: '{recipe_.options}'"
         log.info(log_line)
-        reqs, breqs, pyreqs = conan.requirements(recipe_, profile_)
-        return profile_, recipe_, reqs, breqs, pyreqs
-
-    """
+        
+        ok, pid = conan.package_id(recipe_, profile_)
+        return recipe_, profile_, ok, pid
+        
+    # Compute parallel
     from multiprocessing.dummy import Pool as ThreadPool
     pool = ThreadPool(args.threads)
     results = pool.map(_per_job, all_jobs)
     pool.close()
     pool.join()
-    """
+    
+    # Compute
+    #results = map(_per_job, all_jobs)
 
-    graph = Graph()
+    # Store output
+    output = defaultdict(list)
+    for recipe, profile, ok, pid in results:
+        output[str(recipe.ref)].append((profile, pid))
+    
+    output_results = os.path.join(working_dir, f'data{".cppstd" if use_cppstd else ""}.json')
+    print(f"Output: {output_results}")
+    with open(output_results, 'w') as f:
+        f.write(json.dumps(output))
 
-    results = map(_per_job, all_jobs)
-    for profile, recipe, reqs, breqs, pyreqs in results:
-        graph.add_node(recipe.ref, profile, is_draft=recipe.is_draft)
-        for it in (reqs or []) + (breqs or []) + (pyreqs or []):
-            graph.add_edge(recipe.ref, it, profile, is_draft=recipe.is_draft)
+    # Some stats
+    total = 0
+    for ref, pids in output.items():
+        uniques = set([it[1] for it in pids])
+        uniques = [it for it in uniques if it is not None]
+        total += len(uniques)
+        print(f"{ref}: {len(uniques)}")
 
-    graphviz_file = os.path.join(working_dir, 'graphviz.dot')
-    log.info(f"Draw the graph in '{graphviz_file}'")
-    graphviz = graph.export_graphviz(include_drafts=False)
-    tools.save(graphviz_file, graphviz.source)
-    cmps = graph.compute_max_connected_component(include_drafts=False)
-
-    graphviz_w_drafts_file = os.path.join(working_dir, 'graphviz-drafts.dot')
-    log.info(f"Draw the graph (with drafts) in '{graphviz_w_drafts_file}'")
-    graphviz = graph.export_graphviz(include_drafts=True)
-    tools.save(graphviz_w_drafts_file, graphviz.source)
-    cmps_drafts = graph.compute_max_connected_component(include_drafts=True)
-
-    print("Some stats:")
-    print(" - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
-    print(" - requires relations: {}".format(len([it for it in graph.edges.values() if not it.is_draft])))
-    print(" - recipes x versions: {}".format(sum([len(n.versions) for n in graph.nodes.values() if not n.is_draft])))
-    print(" - components: {}".format(len(cmps)))
-    print(" - components-max: {}".format(max([len(it) for it in cmps])))
-    if args.add_drafts:
-        print("Added drafts:")
-        print(" - drafts: {}".format(len([it for it in graph.nodes.values() if it.is_draft])))
-        print(" - requires relations (drafts): {}".format(len([it for it in graph.edges.values() if it.is_draft])))
-        print(" - components (drafts): {}".format(len(cmps_drafts)))
-        print(" - components-max (drafts): {}".format(max([len(it) for it in cmps_drafts])))
+    print(f"Total binaries: {total}")
 
 
 if __name__ == '__main__':
@@ -190,7 +117,7 @@ if __name__ == '__main__':
     #parser.add_argument('--working-dir', type=str, help='working directory')
     parser.add_argument('--threads', type=int, default=32, help='threads')
     #parser.add_argument('--explode-options', action='store_true', help='Explode options (use wise algorithm)')
-    #parser.add_argument('--add-drafts', action='store_true', help='Add recipe drafts')
+    parser.add_argument('--use-cppstd', action='store_true', help='Add CPPSTD combinations')
     args = parser.parse_args()
 
     working_dir = os.path.abspath(os.path.join(me, '..', '_working_dir'))

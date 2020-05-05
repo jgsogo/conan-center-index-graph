@@ -52,6 +52,17 @@ def _normalize_as_dict(options_):
     return options_
 
 
+def explode_shared_option(recipe, conan):
+    options, default_options = conan.inspect(recipe, ['options', 'default_options'])
+    options, default_options = _normalize_as_dict(options), _normalize_as_dict(default_options)
+    if options and 'shared' in options:
+        for it in options['shared']:
+            yield Recipe(ref=recipe.ref, conanfile=recipe.conanfile, options=(f"shared={it}",),
+                         is_draft=recipe.is_draft, is_proxy=recipe.is_proxy)
+    else:
+        yield recipe
+
+
 def explode_options(recipe, conan):
     if recipe.options:
         raise RuntimeError(f"Recipe {recipe.ref.name} has already options exploded")

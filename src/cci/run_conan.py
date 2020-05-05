@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import uuid
 from io import StringIO
 from typing import List, Optional
 
@@ -98,3 +99,34 @@ class ConanWrapper:
                 log.error(f" - profile: {os.path.basename(profile)}")
                 log.error(r)
         return None, None, None
+
+    def package_id(self, recipe, profile_file):
+        options_cmd = []
+        if recipe.options:
+            for opt in recipe.options:
+                options_cmd.extend(['-o', opt])
+        
+        with temp_file(str(uuid.uuid4())) as output_file:
+            cmd = ['info', '-n', 'id', '--profile', profile_file, '--json', output_file] \
+                  + options_cmd + [f"{recipe.ref}@"]
+            try:
+                r, out = self.run(cmd)
+                if 'Invalid configuration' in out:
+                    return False, 'Invalid config'
+                elif r != 0:
+                    log.warning(f"Error in recipe {recipe.ref}: {out}")
+                    return False, 'Error'
+
+                content = json.loads(tools.load(output_file))
+                reference = str(recipe.ref)
+                for it in content:
+                    if it['reference'] == reference:
+                        return True, it['id']
+                print(content)
+                exit(-1)
+                assert False, "Never get here!"
+            except Exception as e:
+                log.error(f"Error in recipe {recipe.ref}!!! {e}")
+                log.error(f" - recipe: {recipe.ref}")
+                log.error(r)
+        return False, 'Error'
