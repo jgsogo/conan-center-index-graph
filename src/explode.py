@@ -53,25 +53,30 @@ def get_profile_list(keys, profiles_generator):
 
 
 def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
+    use_cppstd = True
     # Get recipes
     #recipes = list(get_recipe_list(cci_repo=conan_center_index, cwd=working_dir, draft_folder=None))
     #log.info(f"Found {len(recipes)} recipes")
 
     # Get profiles
     # - Linux
-    linux_keys = ('os', 'arch', 'compiler', 'compiler.version', 'compiler.libcxx', 'compiler.cppstd', 'build_type')
+    linux_keys = ('os', 'arch', 'compiler', 'compiler.version', 'compiler.libcxx', 'build_type')
     linux_cppstd = ('98', '11', '14', '17', '20')
-    linux_profiles = itertools.product(
+    linux_profiles_generator = (
         ('Linux',), 
         ('x86', 'x86_64'), 
         (
             list(itertools.product(('gcc',), ("4.9", "5", "6", "7", "8", "9"), ('libstdc++', 'libstdc++11'))), 
             list(itertools.product(('clang',), ("3.9", "4", "5", "6", "7", "8", "9"), ('libc++', 'libstdc++')))
         ),
-        linux_cppstd,
         ('Debug', 'Release')
     )
-    linux_profiles = get_profile_list(linux_keys, linux_profiles)
+
+    if use_cppstd:
+        linux_keys = linux_keys + ('compiler.cppstd', )
+        linux_profiles_generator = linux_profiles_generator + (linux_cppstd, )
+
+    linux_profiles = get_profile_list(linux_keys, itertools.product(*linux_profiles_generator))
     for it in linux_profiles:
         print(it)
     return 
