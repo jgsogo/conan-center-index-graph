@@ -33,10 +33,16 @@ jobs:
     - name: Generate PDF/PNG from graph
       run: |
         mkdir _output
+        cp _working_dir/graphviz.dot _output/graph.dot
         dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _output/graph.pdf
         dot -Tpng -Gdpi=300 _working_dir/graphviz.dot > _output/graph.png
         dot -Tjson _working_dir/graphviz.dot > _output/graph.json
 
+    - name: Upload graph-dot
+      uses: actions/upload-artifact@v1
+      with:
+        name: graph-dot
+        path: _output/graph.dot
     - name: Upload graph-pdf
       uses: actions/upload-artifact@v1
       with:
