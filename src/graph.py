@@ -82,12 +82,6 @@ def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
     tools.save(graphviz_file, graphviz.source)
     cmps = graph.compute_max_connected_component(include_drafts=False)
 
-    graphviz_w_drafts_file = os.path.join(working_dir, 'graphviz-drafts.dot')
-    log.info(f"Draw the graph (with drafts) in '{graphviz_w_drafts_file}'")
-    graphviz = graph.export_graphviz(include_drafts=True)
-    tools.save(graphviz_w_drafts_file, graphviz.source)
-    cmps_drafts = graph.compute_max_connected_component(include_drafts=True)
-
     print("Some stats:")
     print(" - recipes: {}".format(len([it for it in graph.nodes.values() if not it.is_draft])))
     print(" - requires relations: {}".format(len([it for it in graph.edges.values() if not it.is_draft])))
@@ -95,6 +89,12 @@ def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
     print(" - components: {}".format(len(cmps)))
     print(" - components-max: {}".format(max([len(it) for it in cmps])))
     if args.add_drafts:
+        graphviz_w_drafts_file = os.path.join(working_dir, 'graphviz-drafts.dot')
+        log.info(f"Draw the graph (with drafts) in '{graphviz_w_drafts_file}'")
+        graphviz = graph.export_graphviz(include_drafts=True)
+        tools.save(graphviz_w_drafts_file, graphviz.source)
+        cmps_drafts = graph.compute_max_connected_component(include_drafts=True)
+
         print("Added drafts:")
         print(" - drafts: {}".format(len([it for it in graph.nodes.values() if it.is_draft])))
         print(" - requires relations (drafts): {}".format(len([it for it in graph.edges.values() if it.is_draft])))

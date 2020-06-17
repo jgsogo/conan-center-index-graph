@@ -29,16 +29,13 @@ jobs:
 
     - name: Compute graph
       run: |
-        python src/graph.py --add-drafts --threads 1
+        python src/graph.py --threads 1
     - name: Generate PDF/PNG from graph
       run: |
         mkdir _output
         dot -Tpdf -Gdpi=300 _working_dir/graphviz.dot > _output/graph.pdf
         dot -Tpng -Gdpi=300 _working_dir/graphviz.dot > _output/graph.png
-        dot -Tpdf -Gdpi=300 _working_dir/graphviz-drafts.dot > _output/graph-drafts.pdf
-        dot -Tpng -Gdpi=300 _working_dir/graphviz-drafts.dot > _output/graph-drafts.png
         dot -Tjson _working_dir/graphviz.dot > _output/graph.json
-        dot -Tjson _working_dir/graphviz-drafts.dot > _output/graph-drafts.json
 
     - name: Upload graph-pdf
       uses: actions/upload-artifact@v1
@@ -60,7 +57,7 @@ jobs:
       run: |
         cd _output
         echo ".nojekyll" > .nojekyll
-        echo "<!doctype html><html><head></head><body><h1>Conan Center</h1>(<a href="graph.pdf">pdf</a> | <a href="graph.png">png</a>) (with drafts: <a href="graph-drafts.pdf">pdf</a>)<br/><img src=\"graph.png\"/></body></html>" > index.html
+        echo "<!doctype html><html><head></head><body><h1>Conan Center</h1>(<a href="graph.pdf">pdf</a> | <a href="graph.png">png</a>)<br/><img src=\"graph.png\"/></body></html>" > index.html
         git init .
         git checkout -b gh-pages
         git add .
