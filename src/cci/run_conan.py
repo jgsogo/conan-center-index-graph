@@ -58,7 +58,7 @@ class ConanWrapper:
     @staticmethod
     def get_reference(nodes, node_id):
         node = nodes[node_id]
-        reference, _ = node['pref'].split('#')
+        reference = node['ref']
         ref = ConanFileReference.loads(reference)
         return ref
 
@@ -69,8 +69,8 @@ class ConanWrapper:
                 options_cmd.extend(['-o', opt])
 
         with temp_file('conan.lock') as output_file:
-            cmd = ['graph', 'lock', '--build', '--profile', profile, '--lockfile', output_file] \
-                  + options_cmd + [f"{recipe.ref}@"]
+            cmd = ['lock', 'create', '--build', '--profile', profile, '--lockfile-out', output_file] \
+                  + options_cmd + ["--reference", f"{recipe.ref}@"]
 
             try:
                 r, out = self.run(cmd)
@@ -83,7 +83,7 @@ class ConanWrapper:
                 content = json.loads(tools.load(output_file))
                 nodes = content['graph_lock']['nodes']
                 for _, node in nodes.items():
-                    reference, _ = node['pref'].split('#')
+                    reference = node['ref']
                     ref = ConanFileReference.loads(reference)
                     if ref == recipe.ref:
                         reqs = [self.get_reference(nodes, it) for it in node.get('requires', [])]
@@ -94,6 +94,7 @@ class ConanWrapper:
                 assert False, "Never get here!"
             except Exception as e:
                 log.error(f"Error in recipe {recipe.ref}!!! {e}")
+                log.error(f" - command: {' '.join(cmd)}")
                 log.error(f" - recipe: {recipe.ref}")
                 log.error(f" - profile: {os.path.basename(profile)}")
                 log.error(r)
