@@ -3,6 +3,7 @@ import itertools
 import logging
 import os
 import shutil
+import json
 from typing import Tuple
 
 from conans import tools
@@ -24,7 +25,7 @@ log = logging.getLogger('cci')
 
 
 def configure_log():
-    log.setLevel(logging.WARNING)
+    log.setLevel(logging.DEBUG)
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -76,6 +77,32 @@ def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
         for it in (reqs or []) + (breqs or []) + (pyreqs or []):
             graph.add_edge(recipe.ref, it, profile, is_draft=recipe.is_draft)
 
+    # Dump list of requirements (to be used by TapaholesList)
+    nodelist = []
+    edges = {}
+    for edge, _ in graph.edges.items():
+        edges.setdefault(edge[0].name, []).append(edge[1].name)
+    nodes_seen = []
+    for name, data in graph.nodes.items():
+        if name not in edges.keys():
+            for v in data.versions:
+                nodelist.append(f'{name}/{v}')
+            nodes_seen.append(name)
+
+    while edges:
+        for edge, reqs in edges.items():
+            if all([it in nodes_seen for it in reqs]):
+                for v in graph.nodes[edge].versions:
+                    nodelist.append(f'{edge}/{v}')
+                nodes_seen.append(edge)
+                edges.pop(edge)
+                break
+
+    with open(os.path.join(working_dir, 'tapaholeslist.json'), 'w') as outfile:
+        json.dump(nodelist, outfile)
+
+
+    # Work with graphviz
     graphviz_file = os.path.join(working_dir, 'graphviz.dot')
     log.info(f"Draw the graph in '{graphviz_file}'")
     graphviz = graph.export_graphviz(include_drafts=False)
