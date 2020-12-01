@@ -1,4 +1,4 @@
-name: Generate graph
+name: Try test
 
 on:
   push:
