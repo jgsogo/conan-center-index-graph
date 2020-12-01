@@ -1,2 +1,2 @@
--e git://github.com/conan-io/conan.git#egg=conan
+git://github.com/conan-io/conan.git#egg=conan
 graphviz
