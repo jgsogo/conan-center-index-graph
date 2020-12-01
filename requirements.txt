@@ -1,2 +1,2 @@
-conan
+-e git://github.com/jgsogo/conan.git@editable#egg=conan-src
 graphviz
