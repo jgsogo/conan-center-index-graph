@@ -63,6 +63,11 @@ jobs:
       with:
         name: tapaholeslist-json
         path: _working_dir/tapaholeslist.json
+    - name: Upload tapaholesdeps-json
+      uses: actions/upload-artifact@v1
+      with:
+        name: tapaholesdeps-json
+        path: _working_dir/tapaholesdeps.json
       
     - name: Deploy to gh-pages
       run: |

@@ -17,6 +17,9 @@ from cci.run_conan import ConanWrapper
 from cci.settings import get_profiles
 from cci.types import PATH
 
+from cci.tapaholes import packages_list, packages_deps
+
+
 conan_center_index = Repository(url='https://github.com/conan-io/conan-center-index.git', branch='master')
 
 
@@ -78,28 +81,8 @@ def main(conan: ConanWrapper, working_dir: PATH, args: argparse.Namespace):
             graph.add_edge(recipe.ref, it, profile, is_draft=recipe.is_draft)
 
     # Dump list of requirements (to be used by TapaholesList)
-    nodelist = []
-    edges = {}
-    for edge, _ in graph.edges.items():
-        edges.setdefault(edge[0].name, []).append(edge[1].name)
-    nodes_seen = []
-    for name, data in graph.nodes.items():
-        if name not in edges.keys():
-            for v in data.versions:
-                nodelist.append(f'{name}/{v}')
-            nodes_seen.append(name)
-
-    while edges:
-        for edge, reqs in edges.items():
-            if all([it in nodes_seen for it in reqs]):
-                for v in graph.nodes[edge].versions:
-                    nodelist.append(f'{edge}/{v}')
-                nodes_seen.append(edge)
-                edges.pop(edge)
-                break
-
-    with open(os.path.join(working_dir, 'tapaholeslist.json'), 'w') as outfile:
-        json.dump(nodelist, outfile)
+    packages_list(graph, os.path.join(working_dir, 'tapaholeslist.json'))
+    packages_deps(graph, os.path.join(working_dir, 'tapaholesdeps.json'))
 
 
     # Work with graphviz
