@@ -1,6 +1,7 @@
 name: Generate graph
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
